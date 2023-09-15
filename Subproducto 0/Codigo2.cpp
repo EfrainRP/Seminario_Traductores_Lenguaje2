@@ -4,8 +4,8 @@
 #include <string.h>
 
 int main(int argc, char** argv) {
-    //CODIGO QUE IMPLEMENTA UNA MAQUINA DE ESTADOS FINITOS (cambia sus estados en funcion a las entradas dadas por el archivo)
-
+    //CODIGO QUE IMPLEMENTA UN AFD (cambia sus estados en funcion a las entradas dadas por el archivo, buscando la aceptacion)
+//Cadenas que acepta: 1*011+
     FILE* fichero;                          //Crea un apuntador para el archivo
     fichero = fopen("prueba.txt", "rt");    //Entra en modo de lectura solo si existe el archivo
     int MT[3][2] = {{1,0},{-1,2},{-1,3}};   //Matriz de transicion, -1 es estado de NO aceptacion  
@@ -18,9 +18,8 @@ int main(int argc, char** argv) {
         simbolo = simbolo - '0';            //Convierte los caracteres del archivo a valores enteros, con una conversion ASCII de '0'
         std::cout << "es: "<< simbolo << "\n";//Imprime el valor entero en pantalla
         estado = MT[estado][simbolo];       //Actualiza el estado segun la matriz, , fila=estado,columna=simbolo de entrada
-        std::cout << estado << "\n";        //Imprime el estado en el que se encuentra la maquina de estado 
+        std::cout << estado << "\n";        //Imprime el estado en el que se encuentra en el AFD
     }
-     //Ex.Regular 1*0111*
+     //Ex.Regular 1*011+
     fclose(fichero);//Cierra el archivo
     return 0;
-}
