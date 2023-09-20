@@ -6,6 +6,9 @@ using namespace std;
 
 int main() {
     string cadena0 = " ,int =01.96< invar _2 var_2!!= >=<><= 1234243=== breakif else while and elif 58.25 return*/+-%[]{}():strbool global 21.89";
+    //string cadena0;
+    //getline(cin,cadena0);
+    //cin.ignore();
     //vector<string> elements;
     vector<string> lexemas;
     vector<string> tokens;
@@ -76,13 +79,13 @@ int main() {
                  else if (cadena[index] == ',') { //Evalua si el caracter es ","
                     state = 0;
                     lexema += cadena[index];
-                    token = "Comma\t";
+                    token = "Comma";
                     intTipo = 13;
                 }
                 else if (cadena[index] == ';') { //Evalua si el caracter es ";"
                     state = 0;
                     lexema += cadena[index];
-                    token = "Punto y coma\t";
+                    token = "Punto y coma";
                     intTipo = 12;
                 }
                 else if (cadena[index] == ':') { //Evalua si el caracter es ":"
@@ -105,13 +108,13 @@ int main() {
                 else if (cadena[index] == '{') { //Evalua si el caracter es "{"
                     state = 0;
                     lexema += cadena[index];
-                    token = "LeftKey\t";
+                    token = "LeftKey";
                     intTipo = 16;
                 }
                 else if (cadena[index] == '}') { //Evalua si el caracter es "}"
                     state = 0;
                     lexema += cadena[index];
-                    token = "RightKey\t";
+                    token = "RightKey";
                     intTipo = 17;
                 }
                  else if (cadena[index] == '[') { //Evalua si el caracter es "["
@@ -127,7 +130,7 @@ int main() {
                 else if (cadena[index] == '$') {    //Evalua si el caracter contiene $
                     state = 0;
                     lexema += cadena[index];
-                    token = "End\t";
+                    token = "End";
                     intTipo = 23;
                 } else if (cadena[index] == '=') {   //Evalua si el caracter es "="
                     lexema += cadena[index];
@@ -209,6 +212,7 @@ int main() {
             }
         }
         state = 1;
+        
         //elements.push_back("" + token + "\t\t\t" + lexema);
         tokens.push_back(token);                 //Tokens vector
         lexemas.push_back(lexema);               //Lexemes vector
@@ -321,9 +325,11 @@ int main() {
             lexemas[i] = "void";
             tipo[i] = 4;
         }
+        tokens[i].resize(20,' ');
+        lexemas[i].resize(15, ' ');
         cout <<"Token: "<<tokens[i];
-        cout <<"\t\tLexema: "<<lexemas[i];
-        cout << "\t\tTipo: "<<tipo[i]<<endl;
+        cout <<"Lexema: "<<lexemas[i];
+        cout << "Tipo: "<<to_string(tipo[i])<<endl;
 
     }
 
