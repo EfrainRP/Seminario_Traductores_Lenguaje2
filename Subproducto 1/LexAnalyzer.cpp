@@ -7,7 +7,7 @@ using namespace std;
 
 
 int main() {
-    string cadena0 = ".25 , int float bool && || not and if elsef for input in def range True False continue print else elif elifs elifos int =01.96< invar _2 var_2!!= >=<><= 1234243=== breakif else while and return 58.25 return*/+-%[]{}():; str bool global 21.89";
+    string cadena0 = "o\n h .25 , int float bool && || not and if elsef for input in def range True False continue print else elif elifs elifos int =01.96< invar _2 var_2!!= >=<><= 1234243=== breakif else while and return 58.25 return*/+-%[]{}():; str bool global 21.89";
     //string cadena0;
     //getline(cin,cadena0);
     //cin.ignore();
@@ -180,8 +180,7 @@ int main() {
                     index++;
                 } else if (cadena[index] == '.'){    //Si es un punto
                     lexema += cadena[index];
-                    token = "Real";
-                    state = 4;
+                    state = 8;
                     intTipo = 2;
                     index++;
                 } else {                         //Sino, continua evaluando
@@ -222,6 +221,7 @@ int main() {
                     lexema += cadena[index];
                     token = "Real";
                     intTipo = 2;
+                    state = 8;
                     index++;
                 } else {                         //Sino, continua evaluando
                     state = 0;
