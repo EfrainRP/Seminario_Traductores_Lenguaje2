@@ -7,7 +7,7 @@ using namespace std;
 
 
 int main() {
-    string cadena0 = ".25 , if elsef else elif elifs elifelseif =01.96< invar _2 var_2!!= >=<><= 1234243=== breakif else while and elif 58.25 return*/+-%[]{}():strbool global 21.89";
+    string cadena0 = ".25 , if elsef else elif elifs elifelseif =01.96< invar _2 var_2!!= >=<><= 1234243=== breakif else while and elif 58.25 return*/+-%[]{}():str bool global 21.89";
     //string cadena0;
     //getline(cin,cadena0);
     //cin.ignore();
@@ -44,104 +44,106 @@ int main() {
                     state = 0;
                     lexema += cadena[index];
                     token = "ModuleOpe";
+                    intTipo = 12;
                 }
                  else if (cadena[index] == '+' || cadena[index] == '-') { //Evalua si el caracter es "+" o "-"
                     state = 0;
                     lexema += cadena[index];
                     token = "AdditionOp";
-                    intTipo = 5;
+                    intTipo = 4;
                 }
                 else if (cadena[index] == '*' || cadena[index] == '/') { //Evalua si el caracter es "*" o "/"
                     state = 0;
                     lexema += cadena[index];
                     token = "MultiplOp";
-                    intTipo = 6;
+                    intTipo = 5;
                 }
                  else if (cadena[index] == '<' || cadena[index] == '>') { //Evalua si el caracter es "<" o ">"
                     state = 3;
                     lexema += cadena[index];
                     token = "RelationalOp";
-                    intTipo = 7;
+                    intTipo = 6;
                 }
                 else if (cadena[index] == '|') { //Evalua si el caracter es "|"
                     state = 5;
                     lexema += cadena[index];
-                    intTipo = 8;
                 }
-                else if (cadena[index] == '|') { //Evalua si el caracter es "|"
+                else if (cadena[index] == '&') { //Evalua si el caracter es "|"
                     state = 6;
                     lexema += cadena[index];
                 }
                 else if (cadena[index] == '!') { //Evalua si el caracter es "!"
                     state = 7;
                     lexema += cadena[index];
-                    token = "Unidentified";
-                    intTipo = 10;
+                    token = "opNOT";
+                    intTipo = 9;
                 }
                  else if (cadena[index] == ',') { //Evalua si el caracter es ","
                     state = 0;
                     lexema += cadena[index];
                     token = "Comma";
-                    intTipo = 13;
+                    intTipo = 14;
                 }
                 else if (cadena[index] == ';') { //Evalua si el caracter es ";"
                     state = 0;
                     lexema += cadena[index];
                     token = "Punto y coma";
-                    intTipo = 12;
+                    intTipo = 13;
                 }
                 else if (cadena[index] == ':') { //Evalua si el caracter es ":"
                     state = 0;
                     lexema += cadena[index];
+                    intTipo = 11;
                     token = "TwoPoints";
                 }
                 else if (cadena[index] == '(') { //Evalua si el caracter es "("
                     state = 0;
                     lexema += cadena[index];
                     token = "LeftParent";
-                    intTipo = 14;
+                    intTipo = 15;
                 }
                 else if (cadena[index] == ')') { //Evalua si el caracter es ")"
                     state = 0;
                     lexema += cadena[index];
                     token = "RightParent";
-                    intTipo = 15;
+                    intTipo = 16;
                 }
                 else if (cadena[index] == '{') { //Evalua si el caracter es "{"
                     state = 0;
                     lexema += cadena[index];
                     token = "LeftKey";
-                    intTipo = 16;
+                    intTipo = 17;
                 }
                 else if (cadena[index] == '}') { //Evalua si el caracter es "}"
                     state = 0;
                     lexema += cadena[index];
                     token = "RightKey";
-                    intTipo = 17;
+                    intTipo = 18;
                 }
                  else if (cadena[index] == '[') { //Evalua si el caracter es "["
                     state = 0;
                     lexema += cadena[index];
                     token = "LeftBrack";
+                    intTipo = 19;
                 }
                 else if (cadena[index] == ']') { //Evalua si el caracter es "]"
                     state = 0;
                     lexema += cadena[index];
                     token = "RightBrack";
+                    intTipo = 20;
                 }
                 else if (cadena[index] == '$') {    //Evalua si el caracter contiene $
                     state = 0;
                     lexema += cadena[index];
                     token = "End";
-                    intTipo = 23;
+                    intTipo = 38;
                 } else if (cadena[index] == '=') {   //Evalua si el caracter es "="
                     lexema += cadena[index];
                     token = "Assignment";
-                    state = 3;
-                    intTipo = 18;
+                    state = 7;
+                    intTipo = 21;
                 } else if (cadena[index] == '.') {   //Evalua si el caracter es "."
                     lexema += cadena[index];
-                    token = "Real";
                     state = 8;
                 } else {                             //Si no encuentra alguna coincidencia, el lexema no es reconocido.
                     state = 0;
@@ -163,7 +165,7 @@ int main() {
                 if (cadena[index] == '=') {      //Evalua si el caracter es el OpRelacional "==, <=, >=, !="
                     lexema += cadena[index];
                     token = "RelationalOp";
-                    intTipo = 7;
+                    intTipo = 6;
                     index++;
                     state = 0;
                 } else {                         //Sino, continua evaluando
@@ -189,7 +191,7 @@ int main() {
                 if (cadena[index] == '|') {      //Evalua si el caracter es "|"
                     lexema += cadena[index];
                     token = "opOR";
-                    intTipo = 8;
+                    intTipo = 7;
                     index++;
                     state = 0;
                 } else {                         //Sino, continua evaluando
@@ -199,7 +201,7 @@ int main() {
                 if (cadena[index] == '&') {      //Evalua si el caracter es "&"
                     lexema += cadena[index];
                     token = "opAND";
-                    intTipo = 9;
+                    intTipo = 8;
                     index++;
                     state = 0;
                 } else {                         //Sino, continua evaluando
@@ -208,15 +210,15 @@ int main() {
             } else if (state == 7) {             //Evalua si el estado es 7
                 if (cadena[index] == '=') {      //Evalua si se completa el "== !="
                     lexema += cadena[index];
-                    token = "opRelational";
-                    intTipo = 11;
+                    token = "opIgualdad";
+                    intTipo = 10;
                     index++;
                     state = 0;
                 } else {                         //Sino, continua evaluando
                     state = 0;
                 }
             } else if (state == 8) {             //Evalua si el estado es 8
-                if (isdigit(cadena[index])) {      //Evalua si se completa el "== !="
+                if (isdigit(cadena[index])) {      //Evalua si es numero real
                     lexema += cadena[index];
                     token = "Real";
                     intTipo = 2;
@@ -240,11 +242,12 @@ int main() {
         if (lexemas[i].find("elif") != string::npos && lexemas[i].length() == 4){
             tokens[i] = "Reserved word";
             lexemas[i] = "sinsi";
-            tipo[i] = 19;
+            tipo[i] = 23;
         }
         else if (lexemas[i].find("else") != string::npos && lexemas[i].length() == 4) {
             tokens[i] = "Reserved word";
             lexemas[i] = "sino";
+            tipo[i] = 24;
         }
         else if (lexemas[i].find("if") != string::npos && lexemas[i].length() == 2) {
             tokens[i] = "Reserved word";
@@ -254,77 +257,92 @@ int main() {
         else if (lexemas[i].find("while") != string::npos && lexemas[i].length() == 5) {
             tokens[i] = "Reserved word";
             lexemas[i] = "mientras";
-            tipo[i] = 20;
+            tipo[i] = 25;
         }
         else if (lexemas[i].find("def") != string::npos&& lexemas[i].length() == 3) {
             tokens[i] = "Reserved word";
             lexemas[i] = "definir";
+            tipo[i] = 34;
         }
         else if (lexemas[i].find("for") != string::npos && lexemas[i].length() == 3) {
             tokens[i] = "Reserved word";
             lexemas[i] = "para";
+            tipo[i] = 26;
         }
         else if (lexemas[i].find("range") != string::npos && lexemas[i].length() == 5) {
             tokens[i] = "Reserved word";
             lexemas[i] = "rango";
+            tipo[i] = 35;
         }
         else if (lexemas[i].find("break") != string::npos && lexemas[i].length() == 5) {
             tokens[i] = "Reserved word";
             lexemas[i] = "romper";
+            tipo[i] = 28;
         }
         else if (lexemas[i].find("continue") != string::npos && lexemas[i].length() == 8) {
             tokens[i] = "Reserved word";
             lexemas[i] = "continuar";
+            tipo[i] = 33;
         }
         else if (lexemas[i].find("global") != string::npos && lexemas[i].length() == 6) {
             tokens[i] = "Reserved word";
+            lexemas[i] = "global";
+            tipo[i] = 30;
         }
         else if (lexemas[i].find("not") != string::npos && lexemas[i].length() == 3) {
             tokens[i] = "Reserved word";
             lexemas[i] = "no";
+            tipo[i] = 9;
         }
         else if (lexemas[i].find("and") != string::npos && lexemas[i].length() == 3) {
             tokens[i] = "Reserved word";
             lexemas[i] = "ademas";
+            tipo[i] = 8;
         }
         else if (lexemas[i].find("or") != string::npos && lexemas[i].length() == 2) {
             tokens[i] = "Reserved word";
             lexemas[i] = "alternativa";
+            tipo[i] = 7;
         }
         else if (lexemas[i].find("True") != string::npos && lexemas[i].length() == 4) {
             tokens[i] = "Reserved word";
             lexemas[i] = "Verdadero";
+            tipo[i] = 36;
         }
         else if (lexemas[i].find("False") != string::npos && lexemas[i].length() == 5) {
             tokens[i] = "Reserved word";
             lexemas[i] = "Falso";
+            tipo[i] = 37;
         }
         else if (lexemas[i].find("print") != string::npos && lexemas[i].length() == 5) {
             tokens[i] = "Reserved word";
             lexemas[i] = "imprimir";
+            tipo[i] = 32;
         }
         else if (lexemas[i].find("input") != string::npos && lexemas[i].length() == 5) {
             tokens[i] = "Reserved word";
             lexemas[i] = "entrada";
+            tipo[i] = 31;
         }
         else if (lexemas[i].find("return") != string::npos && lexemas[i].length() == 6) {
             tokens[i] = "Reserved word";
             lexemas[i] = "retorno";
-            tipo[i] = 21;
+            tipo[i] = 27;
         }
         else if (lexemas[i].find("int") != string::npos && lexemas[i].length() == 3) {
             tokens[i] = "Data type";
             lexemas[i] = "entero";
-            tipo[i] = 4;
+            tipo[i] = 3;
         }
         else if (lexemas[i].find("in") != string::npos && lexemas[i].length() == 2) {
             tokens[i] = "Reserved word";
             lexemas[i] = "en";
+            tipo[i] = 29;
         }
         else if (lexemas[i].find("float") != string::npos && lexemas[i].length() == 5) {
             tokens[i] = "Data type";
             lexemas[i] = "flotante";
-            tipo[i] = 4;
+            tipo[i] = 3;
         }
         else if (lexemas[i].find("str") != string::npos && lexemas[i].length() == 3) {
             tokens[i] = "Data type";
@@ -334,12 +352,9 @@ int main() {
         else if (lexemas[i].find("bool") != string::npos && lexemas[i].length() == 4) {
             tokens[i] = "Data type";
             lexemas[i] = "booleano";
+            tipo[i] = 3;
         }
-        else if (lexemas[i].find("void") != string::npos) {
-            tokens[i] = "Data type";
-            lexemas[i] = "void";
-            tipo[i] = 4;
-        }
+        
         tokens[i].resize(20,' ');
         lexemas[i].resize(15, ' ');
         cout <<"Token: "<<tokens[i];
