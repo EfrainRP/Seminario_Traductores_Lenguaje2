@@ -7,7 +7,7 @@ using namespace std;
 
 
 int main() {
-    string cadena0 = ".25 , if elsef else elif elifs elifelseif =01.96< invar _2 var_2!!= >=<><= 1234243=== breakif else while and elif 58.25 return*/+-%[]{}():str bool global 21.89";
+    string cadena0 = ".25 , int float bool && || not and if elsef for input in def range True False continue print else elif elifs elifos int =01.96< invar _2 var_2!!= >=<><= 1234243=== breakif else while and return 58.25 return*/+-%[]{}():; str bool global 21.89";
     //string cadena0;
     //getline(cin,cadena0);
     //cin.ignore();
@@ -87,7 +87,7 @@ int main() {
                 else if (cadena[index] == ';') { //Evalua si el caracter es ";"
                     state = 0;
                     lexema += cadena[index];
-                    token = "Punto y coma";
+                    token = "Semicolon";
                     intTipo = 13;
                 }
                 else if (cadena[index] == ':') { //Evalua si el caracter es ":"
@@ -354,7 +354,7 @@ int main() {
             lexemas[i] = "booleano";
             tipo[i] = 3;
         }
-        
+
         tokens[i].resize(20,' ');
         lexemas[i].resize(15, ' ');
         cout <<"Token: "<<tokens[i];
