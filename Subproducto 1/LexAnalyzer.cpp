@@ -6,8 +6,8 @@
 using namespace std;
 
 int main() {
-    string cadena0 = " ,int =01.96< invar _2 var_2!!= >=<><= 1234243=== breakif else while and elif 58.25 return*/+-%[]{}():strbool global 21.89";
-    //string cadena0;
+    string cadena0 = ".25 ,int =01.96< invar _2 var_2!!= >=<><= 1234243=== breakif else while and elif 58.25 return*/+-%[]{}():strbool global 21.89";
+    //string cadena0 = "";
     //getline(cin,cadena0);
     //cin.ignore();
     //vector<string> elements;
@@ -138,6 +138,10 @@ int main() {
                     token = "Assignment";
                     state = 7;
                     intTipo = 18;
+                } else if (cadena[index] == '.') {   //Evalua si el caracter es "."
+                    lexema += cadena[index];
+                    token = "Real";
+                    state = 8;
                 } else {                             //Si no encuentra alguna coincidencia, el lexema no es reconocido.
                     state = 0;
                     token = "Unidentified";
@@ -207,6 +211,15 @@ int main() {
                     intTipo = 11;
                     index++;
                     state = 0;
+                } else {                         //Sino, continua evaluando
+                    state = 0;
+                }
+            } else if (state == 8) {             //Evalua si el estado es 8
+                if (isdigit(cadena[index])) {      //Evalua si se completa el "== !="
+                    lexema += cadena[index];
+                    token = "Real";
+                    intTipo = 2;
+                    index++;
                 } else {                         //Sino, continua evaluando
                     state = 0;
                 }
