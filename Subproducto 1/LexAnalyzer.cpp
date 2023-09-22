@@ -5,8 +5,10 @@
 //Lexical Analyzer
 using namespace std;
 
+
 int main() {
-    string cadena0 = " ,int =01.96< invar _2 var_2!!= >=<><= 1234243=== breakif else while and elif 58.25 return*/+-%[]{}():strbool global 21.89";
+
+    string cadena0 = " , if elsef else elif elifs elifelseif =01.96< invar _2 var_2!!= >=<><= 1234243=== breakif else ifwhile and elif 58.25 return*/+-%[]{}():strbool global 21.89";
     //string cadena0;
     //getline(cin,cadena0);
     //cin.ignore();
@@ -74,7 +76,7 @@ int main() {
                 else if (cadena[index] == '!') { //Evalua si el caracter es "!"
                     state = 7;
                     lexema += cadena[index];
-                    token = "opNOT";
+                    token = "Unidentified";
                     intTipo = 10;
                 }
                  else if (cadena[index] == ',') { //Evalua si el caracter es ","
@@ -136,7 +138,7 @@ int main() {
                 } else if (cadena[index] == '=') {   //Evalua si el caracter es "="
                     lexema += cadena[index];
                     token = "Assignment";
-                    state = 7;
+                    state = 3;
                     intTipo = 18;
                 } else {                             //Si no encuentra alguna coincidencia, el lexema no es reconocido.
                     state = 0;
@@ -167,7 +169,7 @@ int main() {
             } else if(state == 4){              //Evalua si el estado es 3
                 if (isdigit(cadena[index])) {      //Evalua si es otro numero
                     lexema += cadena[index];
-                    token = "Integer";
+                    //token = "Integer";
                     state = 4;
                     intTipo = 1;
                     index++;
@@ -203,7 +205,7 @@ int main() {
             } else if (state == 7) {             //Evalua si el estado es 7
                 if (cadena[index] == '=') {      //Evalua si se completa el "== !="
                     lexema += cadena[index];
-                    token = "opIgualdad";
+                    token = "opRelational";
                     intTipo = 11;
                     index++;
                     state = 0;
@@ -213,7 +215,7 @@ int main() {
             }
         }
         state = 1;
-        
+
         //elements.push_back("" + token + "\t\t\t" + lexema);
         tokens.push_back(token);                 //Tokens vector
         lexemas.push_back(lexema);               //Lexemes vector
@@ -223,101 +225,101 @@ int main() {
     //Identifica las palabras reservadas y tipos de datos
     for(size_t i(0); i < lexemas.size(); ++i)
     {
-        if (lexemas[i].find("if") != string::npos){
-            tokens[i] = "Reserved word";
-            lexemas[i] = "si";
-            tipo[i] = 19;
-        }
-        else if (lexemas[i].find("elif") != string::npos) {
+        if (lexemas[i].find("elif") != string::npos && lexemas[i].length() == 4){
             tokens[i] = "Reserved word";
             lexemas[i] = "sinsi";
+            tipo[i] = 19;
         }
-        else if (lexemas[i].find("else") != string::npos) {
+        else if (lexemas[i].find("else") != string::npos && lexemas[i].length() == 4) {
             tokens[i] = "Reserved word";
             lexemas[i] = "sino";
+        }
+        else if (lexemas[i].find("if") != string::npos && lexemas[i].length() == 2) {
+            tokens[i] = "Reserved word";
+            lexemas[i] = "si";
             tipo[i] = 22;
         }
-        else if (lexemas[i].find("while") != string::npos) {
+        else if (lexemas[i].find("while") != string::npos && lexemas[i].length() == 5) {
             tokens[i] = "Reserved word";
             lexemas[i] = "mientras";
             tipo[i] = 20;
         }
-        else if (lexemas[i].find("def") != string::npos) {
+        else if (lexemas[i].find("def") != string::npos&& lexemas[i].length() == 3) {
             tokens[i] = "Reserved word";
             lexemas[i] = "definir";
         }
-        else if (lexemas[i].find("for") != string::npos) {
+        else if (lexemas[i].find("for") != string::npos && lexemas[i].length() == 3) {
             tokens[i] = "Reserved word";
             lexemas[i] = "para";
         }
-        else if (lexemas[i].find("range") != string::npos) {
+        else if (lexemas[i].find("range") != string::npos && lexemas[i].length() == 5) {
             tokens[i] = "Reserved word";
             lexemas[i] = "rango";
         }
-        else if (lexemas[i].find("break") != string::npos) {
+        else if (lexemas[i].find("break") != string::npos && lexemas[i].length() == 5) {
             tokens[i] = "Reserved word";
             lexemas[i] = "romper";
         }
-        else if (lexemas[i].find("continue") != string::npos) {
+        else if (lexemas[i].find("continue") != string::npos && lexemas[i].length() == 8) {
             tokens[i] = "Reserved word";
             lexemas[i] = "continuar";
         }
-        else if (lexemas[i].find("global") != string::npos) {
+        else if (lexemas[i].find("global") != string::npos && lexemas[i].length() == 6) {
             tokens[i] = "Reserved word";
         }
-        else if (lexemas[i].find("not") != string::npos) {
+        else if (lexemas[i].find("not") != string::npos && lexemas[i].length() == 3) {
             tokens[i] = "Reserved word";
             lexemas[i] = "no";
         }
-        else if (lexemas[i].find("and") != string::npos) {
+        else if (lexemas[i].find("and") != string::npos && lexemas[i].length() == 3) {
             tokens[i] = "Reserved word";
             lexemas[i] = "ademas";
         }
-        else if (lexemas[i].find("or") != string::npos) {
+        else if (lexemas[i].find("or") != string::npos && lexemas[i].length() == 2) {
             tokens[i] = "Reserved word";
             lexemas[i] = "alternativa";
         }
-        else if (lexemas[i].find("True") != string::npos) {
+        else if (lexemas[i].find("True") != string::npos && lexemas[i].length() == 4) {
             tokens[i] = "Reserved word";
             lexemas[i] = "Verdadero";
         }
-        else if (lexemas[i].find("False") != string::npos) {
+        else if (lexemas[i].find("False") != string::npos && lexemas[i].length() == 5) {
             tokens[i] = "Reserved word";
             lexemas[i] = "Falso";
         }
-        else if (lexemas[i].find("print") != string::npos) {
+        else if (lexemas[i].find("print") != string::npos && lexemas[i].length() == 5) {
             tokens[i] = "Reserved word";
             lexemas[i] = "imprimir";
         }
-        else if (lexemas[i].find("input") != string::npos) {
+        else if (lexemas[i].find("input") != string::npos && lexemas[i].length() == 5) {
             tokens[i] = "Reserved word";
             lexemas[i] = "entrada";
         }
-        else if (lexemas[i].find("return") != string::npos) {
+        else if (lexemas[i].find("return") != string::npos && lexemas[i].length() == 6) {
             tokens[i] = "Reserved word";
             lexemas[i] = "retorno";
             tipo[i] = 21;
         }
-        else if (lexemas[i].find("int") != string::npos) {
+        else if (lexemas[i].find("int") != string::npos && lexemas[i].length() == 3) {
             tokens[i] = "Data type";
             lexemas[i] = "entero";
             tipo[i] = 4;
         }
-        else if (lexemas[i].find("in") != string::npos) {
+        else if (lexemas[i].find("in") != string::npos && lexemas[i].length() == 2) {
             tokens[i] = "Reserved word";
             lexemas[i] = "en";
         }
-        else if (lexemas[i].find("float") != string::npos) {
+        else if (lexemas[i].find("float") != string::npos && lexemas[i].length() == 5) {
             tokens[i] = "Data type";
             lexemas[i] = "flotante";
             tipo[i] = 4;
         }
-        else if (lexemas[i].find("str") != string::npos) {
+        else if (lexemas[i].find("str") != string::npos && lexemas[i].length() == 3) {
             tokens[i] = "Data type";
             lexemas[i] = "cadena";
             tipo[i] = 3;
         }
-        else if (lexemas[i].find("bool") != string::npos) {
+        else if (lexemas[i].find("bool") != string::npos && lexemas[i].length() == 4) {
             tokens[i] = "Data type";
             lexemas[i] = "booleano";
         }
@@ -330,7 +332,7 @@ int main() {
         lexemas[i].resize(15, ' ');
         cout <<"Token: "<<tokens[i];
         cout <<"Lexema: "<<lexemas[i];
-        cout << "Tipo: "<<to_string(tipo[i])<<endl;
+        cout << "Type: "<<to_string(tipo[i])<<endl;
 
     }
 
@@ -354,4 +356,3 @@ int main() {
 */
     return 0;
 }
-
