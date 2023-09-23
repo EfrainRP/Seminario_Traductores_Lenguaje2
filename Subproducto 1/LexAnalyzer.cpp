@@ -7,9 +7,9 @@ using namespace std;
 
 
 int main() {
-    string cadena0 = "o\n h .25 , int float bool && || not and if elsef for input in def range True False continue print else elif elifs elifos int =01.96< invar _2 var_2!!= >=<><= 1234243=== breakif else while and return 58.25 return*/+-%[]{}():; str bool global 21.89";
-    //string cadena0;
-    //getline(cin,cadena0);
+    //string cadena0 ="o\n h .25 , int float bool && || not and if elsef for input in def range True False continue print else elif elifs elifos int =01.96< invar _2 var_2!!= >=<><= 1234243=== breakif else while and return 58.25 return*/+-%[]{}():; str bool global 21.89";
+    string cadena0 = "";
+    getline(cin,cadena0);
     //cin.ignore();
     //vector<string> elements;
     vector<string> lexemas;
@@ -20,6 +20,7 @@ int main() {
     int intTipo = -1;
     string cadena = cadena0 + "$";
 
+    ///Automata finito
     while (index <= (cadena.length() - 1) && state == 1) {  //Mientras no sea el fin de la cadena y el estado = 1
         string lexema = "";                                 //Inicialmente el lexema no es reconocido
         string token = "Unidentified";
@@ -236,6 +237,7 @@ int main() {
         tipo.push_back(intTipo);                 //Tipo vector
     }
 
+    ///Tabla de simbolos
     //Identifica las palabras reservadas y tipos de datos
     for(size_t i(0); i < lexemas.size(); ++i)
     {
