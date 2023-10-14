@@ -542,7 +542,7 @@ else{
    string id; //First ID
    bool error = false; //ID = ID error
    //semanticError(semanticErrors,sentenciasErrors,line,sentencia,stat,i,lexemas[i]);
-if(!lexicalError){ //No LexicalErrors
+if(!lexicalError){
 for(int i(0); i < tokens.size(); ++i)
     {
 
@@ -1470,21 +1470,22 @@ for(int i(0); i < tokens.size(); ++i)
        // cout <<"Token: "<<element<<endl;
     }
 
-}} //END Lexical Analysis
+} //END Lexical Analysis
 
 //If there are errors
 if(msjsintaxError.size() > 0){
-//Error
 cout<<msjsintaxError<<endl;
 }else{ //If there are no errors
-    //No Errors
-for(size_t i(0); i < sintaxNoErrors.size(); ++i)
-{
-    cout<<"Lexical analysis completed with no errors <"<<sentenciasNoErrors[i]<<"> "<<sintaxNoErrors[i]<<endl;
-    if(i == sintaxNoErrors.size()-1){
-        cout<<"-Process finished with exit code 0.";
-    }
-}}
+  cout<<"< System: Lexical analysis completed with no errors. >\n"<<"-Process finished with exit code 0.";
+
+//for(size_t i(0); i < sintaxNoErrors.size(); ++i)
+//{
+//    cout<<"Lexical analysis completed with no errors <"<<sentenciasNoErrors[i]<<"> "<<sintaxNoErrors[i]<<endl;
+//   if(i == sintaxNoErrors.size()-1){
+//        cout<<"-Process finished with exit code 0.";
+// }}
+}
+}
      /*
     for (const string& element : elements)
         {
@@ -1498,8 +1499,7 @@ for(size_t i(0); i < sintaxNoErrors.size(); ++i)
             cout << "Token: estructura MIENTRAS, Lexema: while" << endl;
         }
         else {
-            cout << element << endl;
-        }
-       }*/
+            cout << element << endl; } }
+*/
     return 0;
 }
