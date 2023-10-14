@@ -1,3 +1,8 @@
+def funtion(a,b,c):
+    a = 1; b = 2; c = 3;
+    return a,b,c;
+funtion(a,b,c);
+return;
 test = True;
 while test:
    a = 5;
@@ -8,7 +13,7 @@ if (a != 5):
     b = "test2";
 else:
     b = "test3";
-for element in range(0,a:
+for element in range(0,a):
     print(element);
 text = input("Type ");
 print(f"{text}");
@@ -29,4 +34,3 @@ if (a == (c+20) and c <= 5):
 while a != c:
    print("");
    break;
-
