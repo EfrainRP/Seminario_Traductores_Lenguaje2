@@ -15,7 +15,7 @@ if (a != 5):
     b = "test2";
 else:
     b = "test3";
-for element in range(0,a):
+for element in range(0,a,4,10):
     print(element);
 text = input("Type ");
 print(f"{text}");
@@ -32,7 +32,7 @@ else:
    var3 = "Not found";
 myint = int(a) + int(c);
 semanticerror = int(a) + str(c);
-if (a == (c+20) and c <= 5):
+if (a == (c+20) and c <= ):
 while a != c:
    print("");
-   break;
+   break
