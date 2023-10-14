@@ -7,7 +7,6 @@
 
 //Lexical Analyzer
 using namespace std;
-string msjsintaxError = "";
 
 
 //DataType
@@ -36,19 +35,24 @@ string space(const string& cadena) {
 
     return resultado;
 }
-  //SintaxError
-void agregarError(vector<string>& sintaxErrors, vector<int>& sentenciasErrors, int& line, string& sentencia, int& stat,int& i, string& lexemas) {
-    msjsintaxError = ">SyntaxError: invalid syntax "+msjsintaxError+sentencia+" LINE --> <"+to_string(line)+">";
-   //string aux = space(lexemas);
+  //SemanticError
+void semanticError(vector<string>& semanticErrors, vector<int>& sentenciasErrors, int& line, string& sentencia, int& stat,int& i, string& lexemas) {
+    //string aux = space(lexemas);
     //sentencia = sentencia + aux + " ";
-    sintaxErrors.push_back(sentencia);
+    semanticErrors.push_back(sentencia);
     sentenciasErrors.push_back(line);
     line++;
-    i=500;
+    i--;
     sentencia = "";
     stat = 0;
 }
-  //NoErrors
+  //SintaxError
+void sintaxError(string& msjsintaxError, int& line, string& sentencia, int& stat,int& i) {
+    msjsintaxError = ">SyntaxError: invalid syntax "+msjsintaxError+sentencia+" LINE --> <"+to_string(line)+">\n -Process finished with exit code 0.";
+    i = 500; //Maximo de tokens
+    stat = 0;
+}
+  //NoSintaxErrors
 void procesarDatos(string& lexemas, string& sentencia,
                    vector<string>& sintaxNoErrors, vector<int>& sentenciasNoErrors,
                    int& line, int& stat) {
@@ -77,7 +81,7 @@ int main() {
     string code = "";
     bool i = true;
     ifstream archivo;
-    archivo.open("testNoSintaxError.txt",ios::in);
+    archivo.open("testSintaxError.txt",ios::in);
 
     if (archivo.fail()){
         cout<<"Error al abrir el archivo.";
@@ -97,7 +101,46 @@ int main() {
   //Codigo fuente
   //cout<<code<<endl;
     string cadena0 = code;
-    //string cadena0 = "return ,; return a,b,c;";
+
+    //string cadena0 = "def funtion(a,b,c,d,e,f):\n"
+                 "return a,b,c,d;"
+                 "var = var;"
+                 "cadenita = \"string\";"
+                 "for csas in range(0,1,3):\n"
+                 "def funtion(a,b,c,d,e,f):\n"
+                 "for it in range(5):\n"
+                 "while True:\n"
+                 "   a = x;\n"
+                 "   b = \"test\";\n"
+                 "   c = 5.1;\n"
+                 "   break;\n"
+                 "if (a != x):\n"
+                 "    b = \"test\";\n"
+                 "else:\n"
+                 "    b = \"test3\";\n"
+                 "for element in range(0,a):\n"
+                 "    print(element);\n"
+                 "text = input(\"Type \");\n"
+                 "print(f\"{text}\");\n"
+                 "input(\"\");\n"
+                 "print(\"Test\");\n"
+                 "a = (2*(c+(42)));\n"
+                 "if (a == 40 and c != a):\n"
+                 "   var1 = 1;\n"
+                 "elif not test:\n"
+                 "   var2 = False;\n"
+                 "elif a >= c or var1 < 10:\n"
+                 "  myvar = a;\n"
+                 "else:\n"
+                 "   var3 = \"Not found\";\n"
+                 "myint = int(a) + int(c);\n"
+                 "semanticerror = int(a) + str(c);\n"
+                 "if (a == (c+20) and c <= 5):\n"
+                 "while a != c:\n"
+                 "   print(\"\");\n"
+                 "   break;\n"
+                 "   while a ==b:\n";
+
     //string cadena0 = "if True::var=1";
     //string cadena0;
     //getline(cin,cadena0);
@@ -461,74 +504,65 @@ int main() {
 //------------------------------------------------------------------------
     //Sintax Analyzer
    int stat = 0; //State
-   vector<string> sintaxErrors;
    vector<string> sintaxNoErrors;
-   vector<int> sentenciasErrors;
    vector<int> sentenciasNoErrors;
    stack<char> pila;
-   vector<string> declarados; //Variables Declaration
-   string id; //First ID
-   bool error = false;
    bool FSTRING = false; //print and input FSTRING
    bool si = false; //if validation
    int line = 1; //CODE LINE
    int parameters = 0; //Parameters for
    bool def = false; //def (funtion)
-   bool continuar = false; //continue in if,elif,else
+   bool funtion = false; //funtion ID
    bool retorno = false; //return in def
-   string datatype = ""; //Datatype validation (int,str,bool,float)
+   string msjsintaxError; //MSJ SintaxError
    string sentencia = "";
    string aux;
+   //Semantic Analyzer variables
+   vector<string> semanticErrors;
+   vector<int> sentenciasErrors;
+   vector<string> declarados; //Variables Declaration
+   string datatype = ""; //Datatype validation (int,str,bool,float)
+   string id; //First ID
+   bool error = false; //ID = ID error
+   //semanticError(semanticErrors,sentenciasErrors,line,sentencia,stat,i,lexemas[i]);
 for(int i(0); i < tokens.size(); ++i)
     {
+
         switch(stat)
         {
       case 0:
           if (tokens[i].find("Reserved word") != string::npos){ //Sintax Reserved words
               if (lexemas[i].find("sinsi") != string::npos){ //Sintax elif
                 sentencia = sentencia+"elif"+" ";
-                continuar = false;
                 if (si == true){
                     stat = 1;
                 }else{
-                sintaxErrors.push_back(sentencia);
-                sentenciasErrors.push_back(line);
-                sentencia = "";
-                stat = 0;
-
+                sintaxError(msjsintaxError,line,sentencia,stat,i);
                 }
               }else if (lexemas[i].find("sino") != string::npos){ //Sintax else
                 sentencia = sentencia+"else"+" ";
-                continuar = false;
                 if (si == true){
                     stat = 4;
                     si = false;
                 }else{
-                sintaxErrors.push_back(sentencia);
-                sentenciasErrors.push_back(line);
-                sentencia = "";
-                stat = 0;
+                sintaxError(msjsintaxError,line,sentencia,stat,i);
                 }
               }else if (lexemas[i].find("mientras") != string::npos){ //Sintax while
                 sentencia = sentencia+"while"+" ";
                 stat = 1;
-                continuar = true;
               }
               else if (lexemas[i].find("si") != string::npos){ //Sintax if
                 sentencia = sentencia+"if"+" "; si = true;
                 stat = 1;
-                continuar = false;
               }
               else if (lexemas[i].find("imprimir") != string::npos){ //Sintax print
                 sentencia = sentencia+"print"+" ";
-                continuar = false;
                 FSTRING = false;
                 stat = 15;
               }
               else if (lexemas[i].find("entrada") != string::npos){ //Sintax input
                 sentencia = sentencia+"input"+" ";
                 FSTRING = false;
-                continuar = false;
                 stat = 15;
               }
               else if (lexemas[i].find("continuar") != string::npos){ //Sintax continue
@@ -549,18 +583,23 @@ for(int i(0); i < tokens.size(); ++i)
                 def = true;
               }
               else if (lexemas[i].find("retorno") != string::npos){ //Sintax return
-                if (lexemas[i+1].find(';') != string::npos){
-                    sentencia = sentencia+"return"+" ";
-                    procesarDatos(lexemas[i+1], sentencia, sintaxNoErrors, sentenciasNoErrors, line, stat);
+                if (retorno == true){
+                      if (lexemas[i+1].find(';') != string::npos){
+                       sentencia = sentencia+"return"+" ";
+                       stat = 20;
+
                 }else{
                 sentencia = sentencia+"return"+" ";
                 stat = 26;
-                retorno = true;
-              }}
+                 }}else{ sentencia = sentencia+"return"+" outside function";
+                      sintaxError(msjsintaxError,line,sentencia,stat,i);
+                  }  retorno = false;}
           }else if(tokens[i].find("Identifier")!= string::npos){//Sintax Identifier
-              if (lexemas[i+1].find('(') != string::npos){
-                   i--;
-                   stat = 24;
+              if (lexemas[i+1].find('(') != string::npos){ //Funtion declaration
+                    stat = 24;
+                    aux = space(lexemas[i]);
+                    sentencia = sentencia+aux+" ";
+                    funtion = true;
               }else{
                     aux = space(lexemas[i]);
                     id = aux;
@@ -568,19 +607,13 @@ for(int i(0); i < tokens.size(); ++i)
                     declarados.push_back(aux);
                     stat = 6;
               }
-           }else if(tokens[i].find("Semicolon")!= string::npos){//Sintax Error
-                sintaxErrors.push_back(sentencia);
-                sentenciasErrors.push_back(line);
-                sentencia = "";
-                stat = 0;
             }else if(tokens[i].find("End")!= string::npos){//Sintax Error
                if(sentencia.size()>0){
-                sintaxErrors.push_back(sentencia);
-                sentenciasErrors.push_back(line);
-                sentencia = "";
-                stat = 0;
+                sintaxError(msjsintaxError,line,sentencia,stat,i);
                }
-           }
+           }else{
+                 stat = 0;
+               }
        // cout<<"tokens "<<lexemas[i]<<endl;
         break;
       case 1: //Operando 1
@@ -604,7 +637,7 @@ for(int i(0); i < tokens.size(); ++i)
               }else if (tokens[i].find("RightParent")!= string::npos){
                     if (pila.empty()) {
                          sentencia=sentencia+")";
-                         agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);}
+                         sintaxError(msjsintaxError,line,sentencia,stat,i);}
                     else{
                     aux = space(lexemas[i]);
                     sentencia = sentencia+aux+" ";
@@ -621,12 +654,12 @@ for(int i(0); i < tokens.size(); ++i)
                            sentencia = sentencia+"not ";
                            stat = 3;
                   }else{
-                   agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                   sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
               }else if (tokens[i].find("End")!= string::npos){
-                   agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
-              }else{
-                   agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                   sintaxError(msjsintaxError,line,sentencia,stat,i);
+              }else{ sentencia = sentencia+space(lexemas[i]);
+                   sintaxError(msjsintaxError,line,sentencia,stat,i);
               }
         break;
       case 2: //Operador
@@ -648,14 +681,16 @@ for(int i(0); i < tokens.size(); ++i)
                     stat = 3;
               }else if (tokens[i].find("TwoPoints")!= string::npos){
                     if (!pila.empty()) {
-                         agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);}
+                         sentencia = sentencia+space(lexemas[i]);
+                         sintaxError(msjsintaxError,line,sentencia,stat,i);}
                     else{
                     procesarDatos(lexemas[i], sentencia, sintaxNoErrors, sentenciasNoErrors, line, stat);
                     }
               }else if (tokens[i].find("End")!= string::npos){
-                   agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                    sintaxError(msjsintaxError,line,sentencia,stat,i);
               }else{
-                   agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                    sentencia = sentencia+space(lexemas[i]);
+                    sintaxError(msjsintaxError,line,sentencia,stat,i);
               }
          break;
        case 3: //Operando 2
@@ -687,24 +722,27 @@ for(int i(0); i < tokens.size(); ++i)
                   }else if (lexemas[i].find("Falso") != string::npos){
                            sentencia = sentencia+"False ";
                   }else{
-                   agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                      sentencia = sentencia+space(lexemas[i]);
+                      sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
               }else if (tokens[i].find("End")!= string::npos){
-                   agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                   sintaxError(msjsintaxError,line,sentencia,stat,i);
               }else{
-                   agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                   sentencia = sentencia+space(lexemas[i]);
+                   sintaxError(msjsintaxError,line,sentencia,stat,i);
               }
          break;
        case 4: //Fin de sentencia o continuacion.
              if (tokens[i].find("TwoPoints")!= string::npos){
                      if (!pila.empty()) {
-                         agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);}
+                         sentencia = sentencia+space(lexemas[i]);
+                         sintaxError(msjsintaxError,line,sentencia,stat,i);}
                     else{
                          procesarDatos(lexemas[i], sentencia, sintaxNoErrors, sentenciasNoErrors, line, stat);}
               }else if (tokens[i].find("RightParent")!= string::npos){
                     if (pila.empty()) {
                          sentencia=sentencia+")";
-                         agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);}
+                         sintaxError(msjsintaxError,line,sentencia,stat,i);}
                     else{
                     aux = space(lexemas[i]);
                     sentencia = sentencia+aux+" ";
@@ -725,13 +763,13 @@ for(int i(0); i < tokens.size(); ++i)
                   }else if (lexemas[i].find("alternativa") != string::npos){
                            sentencia = sentencia+"or ";
                            stat = 1;
-                  }else{
-                   agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                  }else{ sentencia = sentencia+space(lexemas[i]);
+                   sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
               }else if (tokens[i].find("End")!= string::npos){
-                   agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
-              }else{
-                  agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                   sintaxError(msjsintaxError,line,sentencia,stat,i);
+              }else{ sentencia = sentencia+space(lexemas[i]);
+                  sintaxError(msjsintaxError,line,sentencia,stat,i);
               }
         break;
        case 5:
@@ -746,15 +784,9 @@ for(int i(0); i < tokens.size(); ++i)
                     sentencia = sentencia+aux+" ";
                     stat = 3;
               }else if (tokens[i].find("End")!= string::npos){
-                   sintaxErrors.push_back(sentencia);
-                   sentenciasErrors.push_back(line);
-                   sentencia = "";
-                   stat = 0;
+                   sintaxError(msjsintaxError,line,sentencia,stat,i);
               }else{
-                   sintaxErrors.push_back(sentencia);
-                   sentenciasErrors.push_back(line);
-                   sentencia = "";
-                   stat = 0;
+                   sintaxError(msjsintaxError,line,sentencia,stat,i);
               }
         break;
        case 6:  //Sintax Identifier
@@ -771,9 +803,10 @@ for(int i(0); i < tokens.size(); ++i)
                     sentencia = sentencia+aux;
                     stat = 7;
            }else if (tokens[i].find("End")!= string::npos){
-                   agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                   sintaxError(msjsintaxError,line,sentencia,stat,i);
               }else{
-                   agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                    sentencia = sentencia+space(lexemas[i]);
+                   sintaxError(msjsintaxError,line,sentencia,stat,i);
                    }
         break;
        case 7: //Asignation
@@ -782,9 +815,9 @@ for(int i(0); i < tokens.size(); ++i)
                         sentencia = sentencia+aux+" ";
                         stat = 8;
             }else if (tokens[i].find("End")!= string::npos){
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
-            }else{
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
+            }else{      sentencia = sentencia+space(lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
         break;
        case 8: //Operando 1
@@ -810,23 +843,15 @@ for(int i(0); i < tokens.size(); ++i)
                            sentencia = sentencia+"input ";
                            stat = 15;
                    }else if (lexemas[i].find("continuar") != string::npos){
-                           if(continuar == true){
-                              sentencia = sentencia+"continue ";
-                              stat = 9;
-                           }
-                           else{
-                            sentencia = sentencia+"continue ";
-                            i++;
-                            agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
-                           }
+                           sentencia = sentencia+"continue ";
+                           sintaxError(msjsintaxError,line,sentencia,stat,i);
                   }else if (lexemas[i].find("imprimir") != string::npos){
                             sentencia = sentencia+"print ";
-                            i++;
-                            agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                            sintaxError(msjsintaxError,line,sentencia,stat,i);
                   }else if (tokens[i].find("End")!= string::npos){
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
                    }else{
-                                agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                                sintaxError(msjsintaxError,line,sentencia,stat,i);
                             }
               }else if (tokens[i].find("Data type")!= string::npos){
                   if (lexemas[i].find("entero") != string::npos){
@@ -866,10 +891,10 @@ for(int i(0); i < tokens.size(); ++i)
                     stat = 14;
                     pila.push('c');
               }else if (tokens[i].find("End")!= string::npos){
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
               }else{
-                   sentencia = sentencia+space(lexemas[i])+" ";
-                    agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                   sentencia = sentencia+space(lexemas[i]);
+                    sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
         break;
        case 9: //Operador
@@ -884,7 +909,7 @@ for(int i(0); i < tokens.size(); ++i)
            }else if (tokens[i].find("RightParent")!= string::npos){
                     if (pila.empty()) {
                          sentencia=sentencia+")";
-                         agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);}
+                         sintaxError(msjsintaxError,line,sentencia,stat,i);}
                     else{
                     aux = space(lexemas[i]);
                     sentencia = sentencia+aux+" ";
@@ -894,16 +919,17 @@ for(int i(0); i < tokens.size(); ++i)
                if (!pila.empty() || error == true) {
                            if (error == true){
                             procesarDatos(lexemas[i], sentencia, sintaxNoErrors, sentenciasNoErrors, line, stat);
-                            //SemanticError
+                            //SemanticError in if
                            }else{
-                         agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);}
+                         sentencia = sentencia+space(lexemas[i]);
+                         sintaxError(msjsintaxError,line,sentencia,stat,i);}
                     }else{
                     procesarDatos(lexemas[i], sentencia, sintaxNoErrors, sentenciasNoErrors, line, stat);
                     }
            }else if (tokens[i].find("End")!= string::npos){
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
-           }else{
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                       sintaxError(msjsintaxError,line,sentencia,stat,i);
+           }else{      sentencia = sentencia+space(lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
         error = false;
         break;
@@ -931,23 +957,15 @@ for(int i(0); i < tokens.size(); ++i)
                            sentencia = sentencia+"input ";
                            stat = 15;
                    }else if (lexemas[i].find("continuar") != string::npos){
-                           if(continuar == true){
-                              sentencia = sentencia+"continue ";
-                              stat = 9;
-                           }
-                           else{
                             sentencia = sentencia+"continue ";
-                            i++;
-                            agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
-                           }
+                            sintaxError(msjsintaxError,line,sentencia,stat,i);
                   }else if (lexemas[i].find("imprimir") != string::npos){
                             sentencia = sentencia+"print ";
-                            i++;
-                            agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                            sintaxError(msjsintaxError,line,sentencia,stat,i);
                   }else if (tokens[i].find("End")!= string::npos){
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
-                   }else{
-                                agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
+                   }else{       sentencia = sentencia+space(lexemas[i]);
+                                sintaxError(msjsintaxError,line,sentencia,stat,i);
                             }
               }else if (tokens[i].find("Data type")!= string::npos){
                   if (lexemas[i].find("entero") != string::npos){
@@ -978,9 +996,9 @@ for(int i(0); i < tokens.size(); ++i)
                     stat = 11;
                     pila.push('(');
               }else if (tokens[i].find("End")!= string::npos){
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
-              }else{
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
+              }else{    sentencia = sentencia+space(lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
         break;
         case 11: //Case parent ( in var
@@ -1004,19 +1022,12 @@ for(int i(0); i < tokens.size(); ++i)
                            sentencia = sentencia+"False ";
                            stat = 9;
                   }else if (lexemas[i].find("continuar") != string::npos){
-                           if(continuar == true){
-                              sentencia = sentencia+"continue ";
-                              stat = 9;
-                           }
-                           else{
                             sentencia = sentencia+"continue ";
-                            i++;
-                            agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
-                           }
+                            sintaxError(msjsintaxError,line,sentencia,stat,i);
                   }else if (tokens[i].find("End")!= string::npos){
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
-              }else{
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
+                  }else{sentencia = sentencia+space(lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
               }else if (tokens[i].find("LeftParent")!= string::npos){
                     aux = space(lexemas[i]);
@@ -1024,10 +1035,10 @@ for(int i(0); i < tokens.size(); ++i)
                     stat = 11;
                     pila.push('(');
               }else if (tokens[i].find("End")!= string::npos){
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
               }else{
-                        sentencia=sentencia+")";
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                        sentencia = sentencia+space(lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
         break;
         case 12: //Case parent ) in var
@@ -1042,23 +1053,22 @@ for(int i(0); i < tokens.size(); ++i)
            }else if (tokens[i].find("RightParent")!= string::npos){
                     if (pila.empty()) {
                          sentencia=sentencia+")";
-                         agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);}
+                         sintaxError(msjsintaxError,line,sentencia,stat,i);}
                     else{
                     aux = space(lexemas[i]);
                     sentencia = sentencia+aux+" ";
                     stat = 12;
                     pila.pop();}
               }else if (tokens[i].find("Semicolon")!= string::npos){
-               if (!pila.empty()) {
-                         agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);}
+               if (!pila.empty()) {sentencia = sentencia+space(lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);}
                     else{
                     procesarDatos(lexemas[i], sentencia, sintaxNoErrors, sentenciasNoErrors, line, stat);
                     }
            }else if (tokens[i].find("End")!= string::npos){
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
-              }else{    cout<<lexemas[i]<<endl;
-                        cin.get();
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
+              }else{    sentencia = sentencia+space(lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
         break;
         case 13: //Case parent ) in conditional
@@ -1081,7 +1091,7 @@ for(int i(0); i < tokens.size(); ++i)
               }else if (tokens[i].find("RightParent")!= string::npos){
                     if (pila.empty()) {
                          sentencia=sentencia+")";
-                         agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);}
+                         sintaxError(msjsintaxError,line,sentencia,stat,i);}
                     else{
                     aux = space(lexemas[i]);
                     sentencia = sentencia+aux+" ";
@@ -1095,15 +1105,15 @@ for(int i(0); i < tokens.size(); ++i)
                            sentencia = sentencia+"or ";
                            stat = 1;}
               }else if (tokens[i].find("TwoPoints")!= string::npos){
-               if (!pila.empty()) {
-                         agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);}
+               if (!pila.empty()) { sentencia = sentencia+space(lexemas[i]);
+                         sintaxError(msjsintaxError,line,sentencia,stat,i);}
                     else{
                     procesarDatos(lexemas[i], sentencia, sintaxNoErrors, sentenciasNoErrors, line, stat);
                     }
                }else if (tokens[i].find("End")!= string::npos){
-                            agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
-               }else{
-                            agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                            sintaxError(msjsintaxError,line,sentencia,stat,i);
+               }else{       sentencia = sentencia+space(lexemas[i]);
+                            sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
         break;
         case 14: //Strings ID
@@ -1132,21 +1142,21 @@ for(int i(0); i < tokens.size(); ++i)
               }else if (tokens[i].find("Comilla")!= string::npos){
                     if (pila.empty()) {
                          sentencia=sentencia+space(lexemas[i]);
-                         agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);}
+                         sintaxError(msjsintaxError,line,sentencia,stat,i);}
                     else{
                     sentencia=sentencia+" "+space(lexemas[i]);
                     stat = 14;
                     pila.pop();}
               }else if (tokens[i].find("Semicolon")!= string::npos){
-                if (!pila.empty()) {
-                         agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);}
+                if (!pila.empty()) { sentencia = sentencia+space(lexemas[i]);
+                         sintaxError(msjsintaxError,line,sentencia,stat,i);}
                     else{
                     procesarDatos(lexemas[i], sentencia, sintaxNoErrors, sentenciasNoErrors, line, stat);
                     }
                }else if (tokens[i].find("End")!= string::npos){
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
-               }else{
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
+               }else{   sentencia = sentencia+space(lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
         break;
         case 15: //print
@@ -1156,9 +1166,9 @@ for(int i(0); i < tokens.size(); ++i)
                     stat = 16;
                     pila.push('(');
               }else if (tokens[i].find("End")!= string::npos){
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
-               }else{
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
+               }else{   sentencia = sentencia+space(lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
         break;
         case 16: //" or f first in print
@@ -1176,10 +1186,10 @@ for(int i(0); i < tokens.size(); ++i)
                   }else{  sentencia = sentencia+space(lexemas[i])+" ";
                   stat = 18; }
               }else if (tokens[i].find("End")!= string::npos){
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
                }else{
-
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                        sentencia = sentencia+space(lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
         break;
         case 17: //print string
@@ -1208,7 +1218,7 @@ for(int i(0); i < tokens.size(); ++i)
                     if (FSTRING == true){
                         if (pila.empty()) {
                          sentencia=sentencia+space(lexemas[i]);
-                         agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);}
+                         sintaxError(msjsintaxError,line,sentencia,stat,i);}
                         else{
                             sentencia=sentencia+" "+space(lexemas[i]);
                             stat = 17;
@@ -1222,22 +1232,22 @@ for(int i(0); i < tokens.size(); ++i)
               else if (tokens[i].find("Comilla")!= string::npos){
                     if (pila.empty()) {
                          sentencia=sentencia+space(lexemas[i]);
-                         agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);}
+                         sintaxError(msjsintaxError,line,sentencia,stat,i);}
                     else{
                     sentencia=sentencia+" "+space(lexemas[i]);
                     stat = 18;
                     pila.pop();}
               }else if (tokens[i].find("End")!= string::npos){
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
-               }else{
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
+               }else{   sentencia = sentencia+space(lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
         break;
         case 18: //print and input end
             if (tokens[i].find("RightParent")!= string::npos){
                     if (pila.empty()) {
                          sentencia=sentencia+")";
-                         agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);}
+                         sintaxError(msjsintaxError,line,sentencia,stat,i);}
                     else{
                     aux = space(lexemas[i]);
                     sentencia = sentencia+aux+" ";
@@ -1248,15 +1258,15 @@ for(int i(0); i < tokens.size(); ++i)
                     sentencia = sentencia+aux+" ";
                     stat = 16;
               }else if (tokens[i].find("Semicolon")!= string::npos){
-                if (!pila.empty()) {
-                         agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);}
+                if (!pila.empty()) { sentencia = sentencia+space(lexemas[i]);
+                         sintaxError(msjsintaxError,line,sentencia,stat,i);}
                     else{
                     procesarDatos(lexemas[i], sentencia, sintaxNoErrors, sentenciasNoErrors, line, stat);
                     }
                }else if (tokens[i].find("End")!= string::npos){
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
-               }else{
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
+               }else{   sentencia = sentencia+space(lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
         break;
         case 19: //FSTRING
@@ -1266,18 +1276,18 @@ for(int i(0); i < tokens.size(); ++i)
                     stat = 17;
                     pila.push('c');
              }else if (tokens[i].find("End")!= string::npos){
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
-               }else{
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
+               }else{   sentencia = sentencia+space(lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
         break;
-        case 20: //continue and break sintax
+        case 20: //continue and break and funtion ID sintax
            if (tokens[i].find("Semicolon")!= string::npos){
                 procesarDatos(lexemas[i], sentencia, sintaxNoErrors, sentenciasNoErrors, line, stat);
              }else if (tokens[i].find("End")!= string::npos){
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
-               }else{
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
+               }else{   sentencia = sentencia+space(lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
         break;
         case 21: //for and def Sintax
@@ -1291,9 +1301,9 @@ for(int i(0); i < tokens.size(); ++i)
                     stat = 24;
                   }
               }else if (tokens[i].find("End")!= string::npos){
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
-               }else{
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
+               }else{   sentencia = sentencia+space(lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
         break;
         case 22: //in
@@ -1301,13 +1311,13 @@ for(int i(0); i < tokens.size(); ++i)
                   if (lexemas[i].find("en") != string::npos){
                            sentencia = sentencia+"in ";
                            stat = 23;
-                  }else{
-                   agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                  }else{ sentencia = sentencia+space(lexemas[i]);
+                   sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
             }else if (tokens[i].find("End")!= string::npos){
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
-               }else{
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
+               }else{   sentencia = sentencia+space(lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
         break;
         case 23: //range
@@ -1315,13 +1325,13 @@ for(int i(0); i < tokens.size(); ++i)
                   if (lexemas[i].find("rango") != string::npos){
                            sentencia = sentencia+"range ";
                            stat = 24;
-                  }else{
-                   agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                  }else{ sentencia = sentencia+space(lexemas[i]);
+                   sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
             }else if (tokens[i].find("End")!= string::npos){
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
-               }else{
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
+               }else{   sentencia = sentencia+space(lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
         break;
         case 24: //Parameters
@@ -1334,63 +1344,68 @@ for(int i(0); i < tokens.size(); ++i)
               else if (tokens[i].find("Comma")!= string::npos){
                     if (pila.empty()) {
                          sentencia=sentencia+",";
-                         agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);}
+                         sintaxError(msjsintaxError,line,sentencia,stat,i);}
                     else{
                     aux = space(lexemas[i]);
                     sentencia = sentencia+aux+" ";
                     stat = 24;
-                    pila.pop();}
+                    pila.pop();
+                    }
               }
              else if (tokens[i].find("RightParent")!= string::npos){
                     if (pila.empty()) {
                          sentencia=sentencia+")";
-                         agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);}
+                         sintaxError(msjsintaxError,line,sentencia,stat,i);}
                     else{
                     aux = space(lexemas[i]);
+                    pila.pop();
                     sentencia = sentencia+aux+" ";
-                    stat = 25;
-                    pila.pop(); }
+                    if (funtion == true){
+                        stat = 20; funtion = false;  if (pila.size() > 0){pila.pop();}
+                    }else{stat = 25;}
+                    }
               }else if (tokens[i].find("Identifier") != string::npos){
                   aux = space(lexemas[i]);
                   sentencia = sentencia+aux;
                   stat = 24;
                   pila.push('i');
-                  if (def == false){ parameters++;}
+                 if (def == false && funtion == false){ parameters++;}
               }else if (tokens[i].find("Integer")!= string::npos){
                     aux = space(lexemas[i]);
                     sentencia = sentencia+aux+" ";
                     pila.push('1');
-                    if (def == false){ parameters++;}
+                    if (def == false && funtion == false){ parameters++;}
               }else if (tokens[i].find("Real")!= string::npos){
                     aux = space(lexemas[i]);
                     sentencia = sentencia+aux+" ";
                     pila.push('.');
-                    if (def == false){ parameters++;}
+                    if (def == false && funtion == false){ parameters++;}
               }else if (tokens[i].find("End")!= string::npos){
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
-               }else{
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
+               }else{   sentencia = sentencia+space(lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
         break;
         case 25: //END for and def
             if (tokens[i].find("TwoPoints")!= string::npos ){
                     if (parameters > 3){
                         sentencia = sentencia+" range expected at most 3 arguments, got "+to_string(parameters);
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
                    }else{
                     if (pila.empty()) {
-                          if (def == true){
+                          if (def == true){ retorno = true;
                             procesarDatos(lexemas[i], sentencia, sintaxNoErrors, sentenciasNoErrors, line, stat);
-                          }else{
-                         agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);}}
+                          }else{ sentencia = sentencia+space(lexemas[i]);
+                         sintaxError(msjsintaxError,line,sentencia,stat,i);}}
                     else{
                     pila.pop();
+                     if (def == true){ retorno = true;}
                     procesarDatos(lexemas[i], sentencia, sintaxNoErrors, sentenciasNoErrors, line, stat);
                     }}
               }else if (tokens[i].find("End")!= string::npos){
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
-               }else{
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
+               }else{   sentencia = sentencia+space(lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
         parameters = 0;
         def = false;
@@ -1414,7 +1429,7 @@ for(int i(0); i < tokens.size(); ++i)
               }else if (tokens[i].find("Comma")!= string::npos){
                     if (pila.empty()) {
                          sentencia=sentencia+",";
-                         agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);}
+                         sintaxError(msjsintaxError,line,sentencia,stat,i);}
                     else{
                     aux = space(lexemas[i]);
                     sentencia = sentencia+aux+" ";
@@ -1422,15 +1437,15 @@ for(int i(0); i < tokens.size(); ++i)
                     pila.pop();}
               }else if (tokens[i].find("Semicolon")!= string::npos){
                     pila.pop();
-                    if (!pila.empty()) {
-                         agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);}
+                    if (!pila.empty()) { sentencia = sentencia+space(lexemas[i]);
+                         sintaxError(msjsintaxError,line,sentencia,stat,i);}
                     else{
                     procesarDatos(lexemas[i], sentencia, sintaxNoErrors, sentenciasNoErrors, line, stat);
                     }
               }else if (tokens[i].find("End")!= string::npos){
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
-               }else{
-                        agregarError(sintaxErrors, sentenciasErrors, line, sentencia, stat,i,lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
+               }else{   sentencia = sentencia+space(lexemas[i]);
+                        sintaxError(msjsintaxError,line,sentencia,stat,i);
                     }
         break;
 
@@ -1438,13 +1453,21 @@ for(int i(0); i < tokens.size(); ++i)
     }
 
 } //END Lexical Analysis
+
+//If there are errors
+if(msjsintaxError.size() > 0){
+//Error
+cout<<msjsintaxError<<endl;
+}else{ //If there are no errors
     //No Errors
 for(size_t i(0); i < sintaxNoErrors.size(); ++i)
 {
     cout<<"Lexical analysis completed with no errors <"<<sentenciasNoErrors[i]<<"> "<<sintaxNoErrors[i]<<endl;
-}
-   //Errors
-cout<<msjsintaxError<<endl;
+    if(i == sintaxNoErrors.size()-1){
+        cout<<"-Process finished with exit code 0.";
+    }
+}}
+
      /*
     for (const string& element : elements)
         {
