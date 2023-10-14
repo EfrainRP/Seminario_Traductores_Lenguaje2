@@ -149,6 +149,8 @@ int main() {
     vector<string> lexemas;
     vector<string> tokens;
     vector<int> tipo;
+    string tokenError = "Unidentified";
+    bool lexicalError;
     int state = 1;
     int index = 0;
     int intTipo = -1;
@@ -156,6 +158,7 @@ int main() {
     while (index <= (cadena.length() - 1) && state == 1) {  //Mientras no sea el fin de la cadena y el estado = 1
         string lexema = "";                                 //Inicialmente el lexema no es reconocido
         string token = "Unidentified";
+        intTipo = 39;  //Inicialmente el tipo es 39 (no reconocido)
 
         while (index <= (cadena.length() - 1) && state != 0) { //Mientras no sea el fin de la cadena y el estado sea distinto del ultimo
             if (state == 1) {
@@ -286,6 +289,7 @@ int main() {
                 } else {                             //Si no encuentra alguna coincidencia, el lexema no es reconocido.
                     state = 0;
                     token = "Unidentified";
+                    intTipo = 39;
                     lexema = cadena[index];
                 }
                 index++;
@@ -372,8 +376,21 @@ int main() {
         tokens.push_back(token);                 //Tokens vector
         lexemas.push_back(lexema);               //Lexemes vector
         tipo.push_back(intTipo);                 //Tipo vector
+
     }
 
+lexicalError = declarationError(tokens,tokenError);
+if (lexicalError){ //Lexical Error
+
+    for(size_t i(0); i < tokens.size(); ++i){
+        if(tokens[i].find("Unidentified") != string::npos)
+        {
+           cout<<">Lexical error in: "<<lexemas[i]<<"\n-Process finished with exit code 0.";
+           break;
+        }
+    }
+}
+else{
     //Identifica las palabras reservadas y tipos de datos
     for(size_t i(0); i < lexemas.size(); ++i)
     {
@@ -495,12 +512,12 @@ int main() {
 
         tokens[i].resize(20,' ');
         lexemas[i].resize(15, ' ');
-      //  cout <<"Token: "<<tokens[i];
-       //cout <<"Lexema: "<<lexemas[i];
-        //cout << "Type: "<<to_string(tipo[i])<<endl;
+   //     cout <<"Token: "<<tokens[i];
+     //  cout <<"Lexema: "<<lexemas[i];
+       // cout << "Type: "<<to_string(tipo[i])<<endl;
 
     }
-
+}
 //------------------------------------------------------------------------
     //Sintax Analyzer
    int stat = 0; //State
@@ -525,6 +542,7 @@ int main() {
    string id; //First ID
    bool error = false; //ID = ID error
    //semanticError(semanticErrors,sentenciasErrors,line,sentencia,stat,i,lexemas[i]);
+if(!lexicalError){
 for(int i(0); i < tokens.size(); ++i)
     {
 
@@ -1452,7 +1470,7 @@ for(int i(0); i < tokens.size(); ++i)
        // cout <<"Token: "<<element<<endl;
     }
 
-} //END Lexical Analysis
+}} //END Lexical Analysis
 
 //If there are errors
 if(msjsintaxError.size() > 0){
@@ -1467,7 +1485,6 @@ for(size_t i(0); i < sintaxNoErrors.size(); ++i)
         cout<<"-Process finished with exit code 0.";
     }
 }}
-
      /*
     for (const string& element : elements)
         {
@@ -1482,9 +1499,7 @@ for(size_t i(0); i < sintaxNoErrors.size(); ++i)
         }
         else {
             cout << element << endl;
-
         }
-       }
-*/
+       }*/
     return 0;
 }
