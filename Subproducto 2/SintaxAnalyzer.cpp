@@ -542,7 +542,7 @@ else{
    string id; //First ID
    bool error = false; //ID = ID error
    //semanticError(semanticErrors,sentenciasErrors,line,sentencia,stat,i,lexemas[i]);
-if(!lexicalError){
+if(!lexicalError){ //No LexicalErrors
 for(int i(0); i < tokens.size(); ++i)
     {
 
