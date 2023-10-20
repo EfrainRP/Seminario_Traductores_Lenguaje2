@@ -3,6 +3,8 @@
 #include <QFile>
 #include <QTextStream>
 #include <QMessageBox>
+#include <QPixmap>
+#include <QLabel>
 #include <QStandardItemModel>
 
 #include "lexicalAnalyzer.cpp"
@@ -104,8 +106,14 @@ void MainWindow::on_guardar_triggered() //Funcion para escribir en el archivo tx
 {
     QMessageBox msgBox;//Creamos un objeto para crear una ventana emergente para modificar el archivo
     msgBox.setText("El archivo txt se modificará");
-        msgBox.setInformativeText("¿Estas seguro de guardar estos cambios?");
-        msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Cancel);
+
+    QPixmap image("pregunta.png");
+    QLabel label;
+    label.setPixmap(image);
+    msgBox.setIconPixmap(image);
+
+    msgBox.setInformativeText("¿Estas seguro de guardar estos cambios?");
+    msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Cancel);
     msgBox.setDefaultButton(QMessageBox::Save);
     int ret = msgBox.exec();
 

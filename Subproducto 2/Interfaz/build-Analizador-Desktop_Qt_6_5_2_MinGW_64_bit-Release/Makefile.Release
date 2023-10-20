@@ -107,7 +107,8 @@ release/qrc_IMG.cpp: ../Analizador/IMG.qrc \
 		../Analizador/read.png \
 		../Analizador/compilador.png \
 		../Analizador/guardar.png \
-		../Analizador/copy.png
+		../Analizador/copy.png \
+		../Analizador/pregunta.png
 	E:\instalacionQt\6.5.2\mingw_64\bin\rcc.exe -name IMG --no-zstd ..\Analizador\IMG.qrc -o release\qrc_IMG.cpp
 
 compiler_moc_predefs_make_all: release/moc_predefs.h
