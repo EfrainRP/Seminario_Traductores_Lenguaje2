@@ -1477,14 +1477,13 @@ if(msjsintaxError.size() > 0){
 cout<<msjsintaxError<<endl;
 }else{ //If there are no errors
   cout<<"< System: Lexical analysis completed with no errors. >\n"<<"-Process finished with exit code 0.";
-
-//for(size_t i(0); i < sintaxNoErrors.size(); ++i)
-//{
-//    cout<<"Lexical analysis completed with no errors <"<<sentenciasNoErrors[i]<<"> "<<sintaxNoErrors[i]<<endl;
-//   if(i == sintaxNoErrors.size()-1){
-//        cout<<"-Process finished with exit code 0.";
-// }}
 }
+for(size_t i(0); i < sintaxNoErrors.size(); ++i)
+{
+    cout<<"Lexical analysis completed with no errors <"<<sentenciasNoErrors[i]<<"> "<<sintaxNoErrors[i]<<endl;
+   if(i == sintaxNoErrors.size()-1){
+        cout<<"-Process finished with exit code 0.";
+ }}
 }
      /*
     for (const string& element : elements)

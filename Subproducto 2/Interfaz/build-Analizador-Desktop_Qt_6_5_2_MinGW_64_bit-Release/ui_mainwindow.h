@@ -47,7 +47,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(700, 710);
+        MainWindow->resize(700, 599);
         QIcon icon;
         icon.addFile(QString::fromUtf8(":/imagenes/compilador.png"), QSize(), QIcon::Active, QIcon::On);
         MainWindow->setWindowIcon(icon);
@@ -65,7 +65,12 @@ public:
         centralwidget->setObjectName("centralwidget");
         TablaLexico = new QTableView(centralwidget);
         TablaLexico->setObjectName("TablaLexico");
-        TablaLexico->setGeometry(QRect(10, 390, 331, 291));
+        TablaLexico->setGeometry(QRect(10, 370, 681, 201));
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(TablaLexico->sizePolicy().hasHeightForWidth());
+        TablaLexico->setSizePolicy(sizePolicy);
         QFont font;
         font.setPointSize(12);
         font.setBold(false);
@@ -78,9 +83,11 @@ public:
         TablaLexico->setEditTriggers(QAbstractItemView::NoEditTriggers);
         TablaLexico->setAlternatingRowColors(true);
         TablaLexico->setTextElideMode(Qt::ElideMiddle);
+        TablaLexico->setShowGrid(false);
+        TablaLexico->setGridStyle(Qt::SolidLine);
         buttonLexico = new QPushButton(centralwidget);
         buttonLexico->setObjectName("buttonLexico");
-        buttonLexico->setGeometry(QRect(10, 360, 75, 24));
+        buttonLexico->setGeometry(QRect(10, 340, 75, 24));
         QFont font1;
         font1.setPointSize(12);
         font1.setBold(true);
@@ -95,17 +102,19 @@ public:
         textSintatico = new QTextEdit(centralwidget);
         textSintatico->setObjectName("textSintatico");
         textSintatico->setEnabled(true);
-        textSintatico->setGeometry(QRect(360, 40, 331, 291));
-        textSintatico->setFont(font2);
+        textSintatico->setGeometry(QRect(360, 40, 331, 81));
+        QFont font3;
+        font3.setPointSize(11);
+        textSintatico->setFont(font3);
         textSintatico->setReadOnly(true);
         textSemantico = new QTextEdit(centralwidget);
         textSemantico->setObjectName("textSemantico");
-        textSemantico->setGeometry(QRect(360, 390, 331, 291));
-        textSemantico->setFont(font2);
+        textSemantico->setGeometry(QRect(360, 160, 331, 171));
+        textSemantico->setFont(font3);
         textSemantico->setReadOnly(true);
         labelTablaLexico = new QLabel(centralwidget);
         labelTablaLexico->setObjectName("labelTablaLexico");
-        labelTablaLexico->setGeometry(QRect(110, 360, 141, 20));
+        labelTablaLexico->setGeometry(QRect(280, 340, 141, 20));
         labelTablaLexico->setFont(font1);
         labelinsertar = new QLabel(centralwidget);
         labelinsertar->setObjectName("labelinsertar");
@@ -117,7 +126,7 @@ public:
         buttonSintatico->setFont(font1);
         buttonSemantico = new QPushButton(centralwidget);
         buttonSemantico->setObjectName("buttonSemantico");
-        buttonSemantico->setGeometry(QRect(360, 360, 91, 24));
+        buttonSemantico->setGeometry(QRect(360, 130, 91, 24));
         buttonSemantico->setFont(font1);
         MainWindow->setCentralWidget(centralwidget);
         menuBar = new QMenuBar(MainWindow);

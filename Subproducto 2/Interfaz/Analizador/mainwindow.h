@@ -30,8 +30,10 @@ private slots:
 
     void on_guardar_triggered();
 
+    void on_buttonSintatico_clicked();
+
 private:
     Ui::MainWindow *ui;
-    std::vector<tablaSimbolo> funcionLexico(QString);
+    //std::vector<tablaSimbolo> funcionLexico(QString);
 };
 #endif // MAINWINDOW_H
