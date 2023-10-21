@@ -5,7 +5,7 @@
 using namespace std;
 
 //DataType
-bool type(const string &cadena){
+bool type(const string &cadena){ //Evalua si hay mas de un tipo de dato en una expresion para el analizador sintatico
     if (cadena.empty()) {
         // Si la cadena está vacía, consideramos que tiene el mismo tipo.
         return true;
@@ -19,13 +19,13 @@ bool type(const string &cadena){
     return true;
 }
 
-//SintaxError
+//Mensaje SintaxError
 void sintaxError(string& msjsintaxError, int& line, string& sentencia, int& stat,int& i) {
     msjsintaxError = ">SyntaxError: invalid syntax "+msjsintaxError+sentencia+" LINE --> <"+to_string(line)+">\n -Process finished with exit code 0.";
     i = 500; //Maximo de tokens
     stat = 0;
 }
-//NoSintaxErrors
+//Mensaje NoSintaxErrors
 void procesarDatos(string& lexemas, string& sentencia,
                    vector<string>& sintaxNoErrors, vector<int>& sentenciasNoErrors,
                    int& line, int& stat) {
@@ -40,7 +40,7 @@ void procesarDatos(string& lexemas, string& sentencia,
 ///Sintax Analyzer
 string funcionSintatico(vector<tablaSimbolo>& TablaSimbolo){
     size_t i = 0;
-    while (i < TablaSimbolo.size()) {
+    while (i < TablaSimbolo.size()) {   //Busca un "Unidentified", para mandar un mensaje de error, evitando el syntaxAnalyzer
         if(TablaSimbolo[i].token.find("Unidentified") != string::npos)
         {
             string ErrorLexical = "Lexical error in: "+TablaSimbolo[i].lexema+"\n-Process finished with exit code 0.";
@@ -74,7 +74,6 @@ string funcionSintatico(vector<tablaSimbolo>& TablaSimbolo){
     //semanticError(semanticErrors,sentenciasErrors,line,sentencia,stat,i,TablaSimbolo[i].lexema;
         for(int i=0; i < TablaSimbolo.size(); ++i)
         {
-
             switch(stat)
             {
             case 0:

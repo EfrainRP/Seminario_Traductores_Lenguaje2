@@ -2,13 +2,11 @@
 
 using namespace std;
 
+///Lexical Analyzer
 vector<tablaSimbolo> funcionLexico(QString cadena0)
 {
     vector<tablaSimbolo> TablaSimbolo;
 
-    //vector<string> lexemas;
-    //vector<string> tokens;
-    //vector<int> tipo;
     int state = 1;
     int index = 0;
     tablaSimbolo var;

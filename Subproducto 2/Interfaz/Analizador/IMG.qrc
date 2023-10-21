@@ -4,6 +4,7 @@
         <file>compilador.png</file>
         <file>copy.png</file>
         <file>guardar.png</file>
+        <file>pregunta.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

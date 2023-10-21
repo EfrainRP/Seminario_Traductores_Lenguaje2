@@ -721,6 +721,7 @@ debug/mainwindow.o: ../Analizador/mainwindow.cpp ../Analizador/mainwindow.h \
 		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/QMessageBox \
 		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qmessagebox.h \
 		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qdialog.h \
+		E:/instalacionQt/6.5.2/mingw_64/include/QtGui/QPixmap \
 		E:/instalacionQt/6.5.2/mingw_64/include/QtGui/QStandardItemModel \
 		E:/instalacionQt/6.5.2/mingw_64/include/QtGui/qstandarditemmodel.h \
 		../Analizador/lexicalAnalyzer.cpp \

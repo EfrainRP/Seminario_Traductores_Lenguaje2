@@ -23,7 +23,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_buttonLexico_clicked()  ///Boton del Lexico
+void MainWindow::on_buttonLexico_clicked()  ///Boton para analizar hasta el analizador Lexico
 {
     vector<tablaSimbolo> TablaSimbolo = funcionLexico(ui->inputCode->toPlainText()); //Obtenemos la tabla de simbolo de la entrada
 
@@ -74,7 +74,7 @@ void MainWindow::on_buttonLexico_clicked()  ///Boton del Lexico
     ui->TablaLexico->setColumnWidth(2,125);
 }
 
-void MainWindow::on_buttonSintatico_clicked()
+void MainWindow::on_buttonSintatico_clicked()//Boton para realizar el analisis hasta el sintatico
 {
     ui->textSintatico->clear();//Limpiamos nuestro cuadro de texto
     vector<tablaSimbolo> TablaSimbolo = funcionLexico(ui->inputCode->toPlainText()); //Obtenemos la tabla de simbolo de la entrada
@@ -105,13 +105,9 @@ void MainWindow::on_leer_triggered()//Funcion para leer el archivo txt
 void MainWindow::on_guardar_triggered() //Funcion para escribir en el archivo txt
 {
     QMessageBox msgBox;//Creamos un objeto para crear una ventana emergente para modificar el archivo
+    msgBox.setWindowIcon(QIcon(":/imagenes/pregunta.png"));
+    msgBox.setIcon(QMessageBox::Question);
     msgBox.setText("El archivo txt se modificará");
-
-    QPixmap image("pregunta.png");
-    QLabel label;
-    label.setPixmap(image);
-    msgBox.setIconPixmap(image);
-
     msgBox.setInformativeText("¿Estas seguro de guardar estos cambios?");
     msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Cancel);
     msgBox.setDefaultButton(QMessageBox::Save);
