@@ -105,6 +105,7 @@ compiler_rcc_clean:
 debug/qrc_IMG.cpp: ../Analizador/IMG.qrc \
 		E:/instalacionQt/6.5.2/mingw_64/bin/rcc.exe \
 		../Analizador/read.png \
+		../Analizador/limpiar.png \
 		../Analizador/compilador.png \
 		../Analizador/guardar.png \
 		../Analizador/copy.png \

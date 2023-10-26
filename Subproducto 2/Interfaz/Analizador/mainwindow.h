@@ -32,6 +32,8 @@ private slots:
 
     void on_buttonSintatico_clicked();
 
+    void on_actionLimpiar_triggered();
+
 private:
     Ui::MainWindow *ui;
     //std::vector<tablaSimbolo> funcionLexico(QString);

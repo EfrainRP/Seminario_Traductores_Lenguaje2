@@ -5,6 +5,7 @@
         <file>copy.png</file>
         <file>guardar.png</file>
         <file>pregunta.png</file>
+        <file>limpiar.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

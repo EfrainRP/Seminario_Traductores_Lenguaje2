@@ -245,6 +245,8 @@
     </property>
     <addaction name="leer"/>
     <addaction name="guardar"/>
+    <addaction name="separator"/>
+    <addaction name="actionLimpiar"/>
    </widget>
    <addaction name="menuGuardar"/>
   </widget>
@@ -270,6 +272,18 @@
    </property>
    <property name="shortcut">
     <string>F2</string>
+   </property>
+  </action>
+  <action name="actionLimpiar">
+   <property name="icon">
+    <iconset resource="IMG.qrc">
+     <normaloff>:/imagenes/limpiar.png</normaloff>:/imagenes/limpiar.png</iconset>
+   </property>
+   <property name="text">
+    <string>Limpiar</string>
+   </property>
+   <property name="shortcut">
+    <string>F3</string>
    </property>
   </action>
  </widget>

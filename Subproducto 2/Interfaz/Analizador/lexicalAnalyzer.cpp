@@ -353,5 +353,5 @@ vector<tablaSimbolo> funcionLexico(QString cadena0)
         }
     }
 
-    return TablaSimbolo;
+    return TablaSimbolo; ///Tabla de Simbolo
 }

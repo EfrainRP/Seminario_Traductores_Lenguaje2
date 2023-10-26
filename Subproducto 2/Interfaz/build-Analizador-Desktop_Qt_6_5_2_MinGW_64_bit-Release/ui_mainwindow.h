@@ -30,6 +30,7 @@ class Ui_MainWindow
 public:
     QAction *leer;
     QAction *guardar;
+    QAction *actionLimpiar;
     QWidget *centralwidget;
     QTableView *TablaLexico;
     QPushButton *buttonLexico;
@@ -61,6 +62,11 @@ public:
         QIcon icon2;
         icon2.addFile(QString::fromUtf8(":/imagenes/guardar.png"), QSize(), QIcon::Normal, QIcon::Off);
         guardar->setIcon(icon2);
+        actionLimpiar = new QAction(MainWindow);
+        actionLimpiar->setObjectName("actionLimpiar");
+        QIcon icon3;
+        icon3.addFile(QString::fromUtf8(":/imagenes/limpiar.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionLimpiar->setIcon(icon3);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
         TablaLexico = new QTableView(centralwidget);
@@ -142,6 +148,8 @@ public:
         menuBar->addAction(menuGuardar->menuAction());
         menuGuardar->addAction(leer);
         menuGuardar->addAction(guardar);
+        menuGuardar->addSeparator();
+        menuGuardar->addAction(actionLimpiar);
 
         retranslateUi(MainWindow);
 
@@ -158,6 +166,10 @@ public:
         guardar->setText(QCoreApplication::translate("MainWindow", "Guardar", nullptr));
 #if QT_CONFIG(shortcut)
         guardar->setShortcut(QCoreApplication::translate("MainWindow", "F2", nullptr));
+#endif // QT_CONFIG(shortcut)
+        actionLimpiar->setText(QCoreApplication::translate("MainWindow", "Limpiar", nullptr));
+#if QT_CONFIG(shortcut)
+        actionLimpiar->setShortcut(QCoreApplication::translate("MainWindow", "F3", nullptr));
 #endif // QT_CONFIG(shortcut)
 #if QT_CONFIG(tooltip)
         TablaLexico->setToolTip(QCoreApplication::translate("MainWindow", "<html><head/><body><p align=\"center\"><br/></p></body></html>", nullptr));

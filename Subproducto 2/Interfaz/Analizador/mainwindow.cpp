@@ -126,3 +126,24 @@ void MainWindow::on_guardar_triggered() //Funcion para escribir en el archivo tx
         archivo.close();
     }
 }
+
+void MainWindow::on_actionLimpiar_triggered()
+{
+    /*int rowTableLexical = ui->TablaLexico->model()->rowCount();
+    qCritical()<<"no entro";
+    if (ui->TablaLexico->model()){
+        qCritical()<<"entro";
+        for (int r=rowTableLexical;r>=0;r--){
+            ui->TablaLexico->model()->removeRow(r);
+        }
+    }*/
+
+    QStandardItemModel *model = new QStandardItemModel();
+    ui->TablaLexico->setModel(model);//Cambia el modelo de la tabla a un modelo vacio
+
+    //Limpiara respectivamente los cuadros de textos de la interfaz
+    ui->textSintatico->clear();
+    ui->textSemantico->clear();
+    ui->inputCode->clear();
+}
+
