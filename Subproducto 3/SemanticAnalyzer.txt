@@ -1828,7 +1828,8 @@ cout<<msjsintaxError<<endl;
 // }}
 }
 }
-     /*
+     /* 
+     //Example
     for (const string& element : elements)
         {
         if (element.find("Lexema: if") != string::npos) {
