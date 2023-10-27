@@ -14,14 +14,14 @@ bool type(const std::string &cadena) {
     if (cadena.empty()) {
         // Si la cadena está vacía, consideramos que tiene el mismo tipo.
         return true;
-    }
+    } 
     char primerCaracter = cadena[0];
-    for (size_t i = 1; i < cadena.length(); ++i) {
-        if (cadena[i] != primerCaracter) {
+    for (size_t i = 1; i < cadena.length(); ++i) { //Busca si hay más de un tipo de dato en la cadena
+        if (cadena[i] != primerCaracter) { //Si hay mas de un tipo de dato, retorna false 
             return false;
         }
     }
-    return true;
+    return true; //Retorna true al haber un solo tipo de dato 
 }
 //Remueve los espacios en blanco de los tokens
 string space(const string& cadena) {
