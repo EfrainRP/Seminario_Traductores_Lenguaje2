@@ -66,11 +66,11 @@ void procesarDatos(string& lexemas, string& sentencia,
 }
 
 //Declaraciones en la tabla de simbolos
-bool declarationError(vector<string>& vec,string& elemento){
-auto it = find(vec.begin(), vec.end(), elemento);
- if (it != vec.end()) {
+bool declarationError(vector<string>& vec,string& elemento){ //Busca una declaracion en la tabla de simbolos
+auto it = find(vec.begin(), vec.end(), elemento); //find busca el elemento desde .begin() hasta .end() en el vector
+ if (it != vec.end()) { //Si it no es igual al final del vector, se encontro una coincidencia 
         return true;
-    } else {
+    } else { //Si it = vec.end() (final del vector), no se encontro una coincidencia 
         return false;
     }
 }
