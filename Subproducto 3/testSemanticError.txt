@@ -1,0 +1,27 @@
+def funtion(a,b,c):
+     a = 1;
+     b = 2;
+     c = 3;
+def funtion2(var):
+    return;
+var = (1*2+3+(2*2)/0)/0+1/0;
+b = 1/0;
+i = i;
+a = 1;
+if (a/0) == 5:
+    print(a);
+else:
+    b = 2;
+c = 1;
+cadena = "cadenita";
+var2 = int(cadena) + str(c);
+var2 = str(cadena) + str(cadena);
+while x == 2:
+   x = 1;
+   print(z);
+funtion(c,a);
+funtion2(c,a,1);
+a = input("Press Enter",a);
+
+
+
