@@ -6,16 +6,25 @@
 #include <QPixmap>
 #include <QLabel>
 #include <QStandardItemModel>
+#include <QScrollBar>
 
 #include "lexicalAnalyzer.cpp"
 #include "sintaxAndSemanticAnalyzer.cpp"
 using namespace std;
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    // Conectar el desplazamiento vertical de plainTextEdit1 al de textEdit2
+    connect(ui->inputCode->verticalScrollBar(), &QScrollBar::valueChanged, ui->numberLine->verticalScrollBar(), &QScrollBar::setValue);
+    connect(ui->numberLine->verticalScrollBar(), &QScrollBar::valueChanged, ui->inputCode->verticalScrollBar(), &QScrollBar::setValue);
+    //numberLineBreak();
+    // Conectar el desplazamiento horizontal de plainTextEdit1 al de textEdit2 (si es necesario)
+    //connect(ui->inputCode->horizontalScrollBar(), &QScrollBar::valueChanged, ui->numberLine->horizontalScrollBar(), &QScrollBar::setValue);
+
 }
 
 MainWindow::~MainWindow()
@@ -69,13 +78,14 @@ void MainWindow::on_buttonLexico_clicked()  ///Boton para analizar hasta el anal
 
     ui->TablaLexico->setModel(model);//Actualizamos el modelo de la tabla a mostrar
     //ui->TablaLexico->horizontalHeader()->setStyleSheet("QHeaderView::section { font-weight: bold; }");
-    ui->TablaLexico->setColumnWidth(0,185);
-    ui->TablaLexico->setColumnWidth(1,300);
-    ui->TablaLexico->setColumnWidth(2,125);
+    ui->TablaLexico->setColumnWidth(0,(ui->TablaLexico->width()*0.25));//185
+    ui->TablaLexico->setColumnWidth(1,(ui->TablaLexico->width()*0.46));//300
+    ui->TablaLexico->setColumnWidth(2,(ui->TablaLexico->width()*0.25));//125
 }
 
 void MainWindow::on_buttonSintatico_clicked()//Boton para realizar el analisis hasta el sintatico
 {
+
     ui->textSintatico->clear();//Limpiamos nuestro cuadro de texto
     vector<tablaSimbolo> TablaSimbolo = funcionLexico(ui->inputCode->toPlainText()); //Obtenemos la tabla de simbolo de la entrada
     ui->textSintatico->setPlainText(QString::fromStdString(funcionSintaticoSemantico(TablaSimbolo, true))); //Se escribe el texto resultante del sintatico
@@ -153,3 +163,19 @@ void MainWindow::on_actionLimpiar_triggered()
     ui->textSemantico->clear();
     ui->inputCode->clear();
 }
+
+void MainWindow::on_inputCode_textChanged()
+{
+    QString row = "1\n";
+    int r = 2;
+    for(int x=0; x<ui->inputCode->toPlainText().length(); x++){
+        if (ui->inputCode->toPlainText().at(x) =='\n'){
+            //qCritical()<<input.length()<<"  salto  "<<x;
+            row.append(QString::number(r++)+"\n");
+        }
+    }
+    ui->numberLine->setPlainText(row);
+}
+
+
+

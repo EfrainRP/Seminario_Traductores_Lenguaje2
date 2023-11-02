@@ -36,8 +36,9 @@ private slots:
 
     void on_buttonSemantico_clicked();
 
+    void on_inputCode_textChanged();
+
 private:
     Ui::MainWindow *ui;
-    //std::vector<tablaSimbolo> funcionLexico(QString);
 };
 #endif // MAINWINDOW_H
