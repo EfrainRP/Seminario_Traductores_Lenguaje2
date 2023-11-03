@@ -100,7 +100,6 @@ string funcionSintaticoSemantico(vector<tablaSimbolo>& TablaSimbolo, bool flag){
     string id; //First ID
     string aux_id; //Aux ID
     string aux_def; //Aux ID def
-    bool zero = false; //Division by zero
     bool error = false; //ID error
     bool second = true; //Second ID
 

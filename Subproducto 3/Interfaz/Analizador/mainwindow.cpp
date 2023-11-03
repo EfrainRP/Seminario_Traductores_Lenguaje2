@@ -18,12 +18,9 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    // Conectar el desplazamiento vertical de plainTextEdit1 al de textEdit2
-    connect(ui->inputCode->verticalScrollBar(), &QScrollBar::valueChanged, ui->numberLine->verticalScrollBar(), &QScrollBar::setValue);
+    // Conectar el desplazamiento vertical de inputCode al de numberLine
     connect(ui->numberLine->verticalScrollBar(), &QScrollBar::valueChanged, ui->inputCode->verticalScrollBar(), &QScrollBar::setValue);
-    //numberLineBreak();
-    // Conectar el desplazamiento horizontal de plainTextEdit1 al de textEdit2 (si es necesario)
-    //connect(ui->inputCode->horizontalScrollBar(), &QScrollBar::valueChanged, ui->numberLine->horizontalScrollBar(), &QScrollBar::setValue);
+    connect(ui->inputCode->verticalScrollBar(), &QScrollBar::valueChanged, ui->numberLine->verticalScrollBar(), &QScrollBar::setValue);
 
 }
 
@@ -77,7 +74,8 @@ void MainWindow::on_buttonLexico_clicked()  ///Boton para analizar hasta el anal
     }
 
     ui->TablaLexico->setModel(model);//Actualizamos el modelo de la tabla a mostrar
-    //ui->TablaLexico->horizontalHeader()->setStyleSheet("QHeaderView::section { font-weight: bold; }");
+
+    //Ajustara el ancho de las columnas con respecto al ancho de la tabla
     ui->TablaLexico->setColumnWidth(0,(ui->TablaLexico->width()*0.25));//185
     ui->TablaLexico->setColumnWidth(1,(ui->TablaLexico->width()*0.46));//300
     ui->TablaLexico->setColumnWidth(2,(ui->TablaLexico->width()*0.25));//125
@@ -113,7 +111,7 @@ void MainWindow::on_leer_triggered()//Funcion para leer el archivo txt
         return;
     }
     QTextStream in(&archivo);
-    ui->inputCode->insertPlainText(in.readAll());
+    ui->inputCode->insertPlainText(in.readAll());//Insertar el texto leido del archivo a la interfaz
     archivo.close();
 }
 
@@ -166,16 +164,12 @@ void MainWindow::on_actionLimpiar_triggered()
 
 void MainWindow::on_inputCode_textChanged()
 {
-    QString row = "1\n";
-    int r = 2;
-    for(int x=0; x<ui->inputCode->toPlainText().length(); x++){
+    QString row = "1"; //Inicia la cadena para el numberLine
+    int r = 2;  //Empezaremos a enumerar en la linea 2
+    for(int x=0; x<ui->inputCode->toPlainText().length(); x++){//Recorrera el texto para enumerar los renglones
         if (ui->inputCode->toPlainText().at(x) =='\n'){
-            //qCritical()<<input.length()<<"  salto  "<<x;
-            row.append(QString::number(r++)+"\n");
+            row.append("\n"+QString::number(r++));//Ira agregando los numeros con sus respectivos saltos de renglon
         }
     }
-    ui->numberLine->setPlainText(row);
+    ui->numberLine->setPlainText(row);//Se insertar en el texto para renglones
 }
-
-
-

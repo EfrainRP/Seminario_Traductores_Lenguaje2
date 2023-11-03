@@ -22,6 +22,12 @@
     <height>599</height>
    </size>
   </property>
+  <property name="sizeIncrement">
+   <size>
+    <width>1</width>
+    <height>1</height>
+   </size>
+  </property>
   <property name="palette">
    <palette>
     <active>
@@ -1434,6 +1440,9 @@
       <pointsize>12</pointsize>
      </font>
     </property>
+    <property name="cursorWidth">
+     <number>1</number>
+    </property>
    </widget>
    <widget class="QTextEdit" name="textSintatico">
     <property name="enabled">
@@ -2826,11 +2835,23 @@ background-color: rgb(15, 15, 15);</string>
       <pointsize>12</pointsize>
      </font>
     </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::DefaultContextMenu</enum>
+    </property>
+    <property name="acceptDrops">
+     <bool>false</bool>
+    </property>
+    <property name="lineWidth">
+     <number>0</number>
+    </property>
     <property name="verticalScrollBarPolicy">
      <enum>Qt::ScrollBarAlwaysOff</enum>
     </property>
     <property name="horizontalScrollBarPolicy">
      <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="sizeAdjustPolicy">
+     <enum>QAbstractScrollArea::AdjustIgnored</enum>
     </property>
     <property name="undoRedoEnabled">
      <bool>false</bool>
@@ -2841,8 +2862,20 @@ background-color: rgb(15, 15, 15);</string>
     <property name="plainText">
      <string/>
     </property>
-    <property name="centerOnScroll">
+    <property name="cursorWidth">
+     <number>0</number>
+    </property>
+    <property name="textInteractionFlags">
+     <set>Qt::TextSelectableByMouse</set>
+    </property>
+    <property name="maximumBlockCount">
+     <number>0</number>
+    </property>
+    <property name="backgroundVisible">
      <bool>true</bool>
+    </property>
+    <property name="centerOnScroll">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>

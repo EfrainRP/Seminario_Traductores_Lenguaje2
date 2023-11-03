@@ -57,6 +57,7 @@ public:
         sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
         MainWindow->setSizePolicy(sizePolicy);
         MainWindow->setMinimumSize(QSize(738, 599));
+        MainWindow->setSizeIncrement(QSize(1, 1));
         QPalette palette;
         QBrush brush(QColor(255, 170, 0, 255));
         brush.setStyle(Qt::SolidPattern);
@@ -298,6 +299,7 @@ public:
         QFont font2;
         font2.setPointSize(12);
         inputCode->setFont(font2);
+        inputCode->setCursorWidth(1);
         textSintatico = new QTextEdit(centralwidget);
         textSintatico->setObjectName("textSintatico");
         textSintatico->setEnabled(true);
@@ -533,11 +535,19 @@ public:
         numberLine->setEnabled(true);
         numberLine->setGeometry(QRect(20, 40, 31, 291));
         numberLine->setFont(font2);
+        numberLine->setContextMenuPolicy(Qt::DefaultContextMenu);
+        numberLine->setAcceptDrops(false);
+        numberLine->setLineWidth(0);
         numberLine->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         numberLine->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        numberLine->setSizeAdjustPolicy(QAbstractScrollArea::AdjustIgnored);
         numberLine->setUndoRedoEnabled(false);
         numberLine->setReadOnly(true);
-        numberLine->setCenterOnScroll(true);
+        numberLine->setCursorWidth(0);
+        numberLine->setTextInteractionFlags(Qt::TextSelectableByMouse);
+        numberLine->setMaximumBlockCount(0);
+        numberLine->setBackgroundVisible(true);
+        numberLine->setCenterOnScroll(false);
         MainWindow->setCentralWidget(centralwidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName("menuBar");
