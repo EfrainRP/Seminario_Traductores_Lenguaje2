@@ -2017,6 +2017,8 @@ for(int i(0); i < lexemas.size(); ++i){
 //Send the expressions to generate intermediate code
 string entrada;
 vector<string> sentence;
+int code = 0;
+//Instructions used --> .CODE, LOAD, ADD, SUB, MOV, DIV, END
 for(int i(0); i < lexemas.size(); ++i){
 
     sentence.push_back(space(lexemas[i]));
@@ -2031,6 +2033,7 @@ for(int i(0); i < lexemas.size(); ++i){
        cout<<endl<<"Entrada -- > "<<entrada;
         cin.get();
         cout<<"Operacion\tOperando 1\tOperando 2\tResultado almacenado"<<endl;
+        if(code == 0){cout<<".CODE"<<endl; code = 1;}
         vector<string> cadenita = MultOp(sentence,0);            //As it is an expression, the intermediate code is generated. Ex: x = 1 * 5 + 2;
         sentence.clear();                                        //Clean for the next expression
         entrada = "";
@@ -2042,7 +2045,7 @@ for(int i(0); i < lexemas.size(); ++i){
     }
 
 }
-
+cout<<"END";
 
 }
 }
