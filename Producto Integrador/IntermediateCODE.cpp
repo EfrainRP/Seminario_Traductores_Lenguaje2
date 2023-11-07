@@ -2030,7 +2030,7 @@ for(int i(0); i < lexemas.size(); ++i){
         }
        cout<<endl<<"Entrada -- > "<<entrada;
         cin.get();
-        cout<<"Operacion\tOperando 1\tOperando 2\tResultado"<<endl;
+        cout<<"Operacion\tOperando 1\tOperando 2\tResultado almacenado"<<endl;
         vector<string> cadenita = MultOp(sentence,0);            //As it is an expression, the intermediate code is generated. Ex: x = 1 * 5 + 2;
         sentence.clear();                                        //Clean for the next expression
         entrada = "";
