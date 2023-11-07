@@ -2036,7 +2036,7 @@ for(int i(0); i < lexemas.size(); ++i){
         entrada = "";
         cout<<"Resultante: "<<endl;
         for (string elemento : cadenita) {
-        cout << elemento <<endl;
+        cout << elemento <<" ";
     }
     cin.get();
     }
