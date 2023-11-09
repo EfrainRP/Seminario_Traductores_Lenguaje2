@@ -2128,7 +2128,7 @@ codigo.push_back({"END",";Code end"});
 cout<<"-Codigo generado: "<<endl<<endl;
        for(int i(0); i < codigo.size(); ++i){          //For each generated code statement
            for(int j(0); j < codigo[i].size(); j++){
-               cout<<codigo[i][j]<<" ";                // <-- Generated Code
+               cout<<codigo[i][j]<<"\t";                // <-- Generated Code
            }
            cout<<endl;
        }
