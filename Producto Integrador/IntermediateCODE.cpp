@@ -12,7 +12,7 @@ using namespace std;
 //DataType
 bool type(const std::string &cadena) {
     if (cadena.empty()) {
-        // Si la cadena está vacía, consideramos que este tiene el mismo tipo.
+        // Si la cadena está vacía, consideramos que tiene el mismo tipo.
         return true;
     }
     char primerCaracter = cadena[0];
@@ -36,8 +36,9 @@ string space(const string& cadena) {
     return resultado;
 }
 //Function AdditionOp + and - (Validates the hierarchy of addition and subtraction)
-vector<string> AddOp(vector<string> entrada, int cont){
- string op,op2,temp; //res
+vector<vector<string>> AddOp(vector<string> entrada, int cont, vector<vector<string>> expression){
+ string op,op2,temp,x; //res
+ vector<string> vec;
  for(int i(0); i < entrada.size(); ++i){     //For each element of the input (lexemes)
     if(entrada[i].find(';')!= string::npos){ //Final case when finding the result Ex: x = var;
        //for(int i(0); i < entrada.size(); ++i){
@@ -45,8 +46,10 @@ vector<string> AddOp(vector<string> entrada, int cont){
         // }
        //cin.get();
        op = entrada[i-1];
+       x = entrada[i-3];
+       expression.push_back({"LOAD",op,x});
        cout<<"LOAD\t\t"<<op<<"\t\t\t\t"<<entrada[i-3]<<endl;
-       return entrada;
+       return expression;
     }
       if(entrada[i].find('+')!= string::npos || entrada[i].find('-')!= string::npos){ //When finding + or -
           if(entrada[i].find('+')!= string::npos){ //When finding "+"
@@ -55,19 +58,36 @@ vector<string> AddOp(vector<string> entrada, int cont){
             op = entrada[i-1];                     //The left operand of the operator is taken Ex: "op + op2" where "op" was taken
             if(op[0] != 'T'){                      //If the operand hasn't been loaded previously
                 cout<<"LOAD\t\t"<<op<<"\t\t\t\tV"<<cont<<endl;
+                vec.push_back("LOAD");
+                vec.push_back(op);
                 op = "V"+to_string(cont);
+                vec.push_back(op);
+                expression.push_back(vec);
+                vec.clear();
             }else{                                 //Opposite case
                op = "T"+to_string(cont-1);
             }
             op2 = entrada[i+1];                    //The right operand of the operator is taken Ex: "op + op2" where "op2" was taken
             if(op2[0] != 'T'){                     //If the operand 2 hasn't been loaded previously
                 cout<<"LOAD\t\t"<<op2<<"\t\t\t\tR"<<cont<<endl;
+                vec.push_back("LOAD");
+                vec.push_back(op2);
                 op2 = "R"+to_string(cont);
+                vec.push_back(op2);
+                expression.push_back(vec);
+                vec.clear();
             }else{                                 //Opposite case
                op2 = "T"+to_string(cont-1);
             }
             //res = op * op2;
             cout<<"ADD\t\t"<<op<<"\t\t"<<op2<<"\t\tT"<<cont<<endl;
+            vec.push_back("ADD");
+            vec.push_back(op);
+            vec.push_back(op2);
+            string aux = "T"+to_string(cont);
+            vec.push_back(aux);
+            expression.push_back(vec);
+            vec.clear();
             entrada.erase(entrada.begin() + i-1);  //Replaces the new result into the vector Ex: "op + op2" = "T1"
             entrada.erase(entrada.begin() + i-1);
             temp = "T"+to_string(cont);
@@ -76,8 +96,8 @@ vector<string> AddOp(vector<string> entrada, int cont){
          //       cout<<entrada[i]<<endl;
         // }
        //cin.get();
-            entrada=AddOp(entrada,cont);           //Call the function to see if the new entry has an "+ or -"
-            return entrada;
+            expression=AddOp(entrada,cont,expression);           //Call the function to see if the new entry has an "+ or -"
+            return expression;
             //cout<<"R / : "<<res<<endl;
           }}else{                                  //When finding "-"
               if(entrada[i].size() == 1){          //Validate that the entry only has one symbol "-"
@@ -86,29 +106,48 @@ vector<string> AddOp(vector<string> entrada, int cont){
             op = entrada[i-1];                     //The left operand of the operator is taken Ex: "op - op2" where "op" was taken
             if(op[0] != 'T'){                      //If the operand hasn't been loaded previously
                 cout<<"LOAD\t\t"<<op<<"\t\t\t\tV"<<cont<<endl;
+                vec.push_back("LOAD");
+                vec.push_back(op);
                 op = "V"+to_string(cont);
+                vec.push_back(op);
+                expression.push_back(vec);
+                vec.clear();
             }else{                                //Opposite case
                op = "T"+to_string(cont-1);
             }
             op2 = entrada[i+1];                    //The right operand 2 of the operator is taken Ex: "op - op2" where "op2" was taken
             if(op2[0] != 'T'){                     //If the operand 2 hasn't been loaded previously
                 cout<<"LOAD\t\t"<<op2<<"\t\t\t\tR"<<cont<<endl;
+                vec.push_back("LOAD");
+                vec.push_back(op2);
                 op2 = "R"+to_string(cont);
+                vec.push_back(op2);
+                expression.push_back(vec);
+                vec.clear();
             }else{                                 //Opposite case
                op2 = "T"+to_string(cont-1);
             }
+            //expression.push_back(vec);
             //res = op * op2;
             cout<<"SUB\t\t"<<op<<"\t\t"<<op2<<"\t\tT"<<cont<<endl;
+            vec.push_back("SUB");
+            vec.push_back(op);
+            vec.push_back(op2);
+            string aux = "T"+to_string(cont);
+            vec.push_back(aux);
+            expression.push_back(vec);
+            vec.clear();
             entrada.erase(entrada.begin() + i-1);  //Replaces the new result into the vector Ex: "op - op2" = "T1"
             entrada.erase(entrada.begin() + i-1);
             temp = "T"+to_string(cont);
             entrada[i-1] = temp;                   //The result is stored after the previous ones have been deleted
+
             //for(int i(0); i < entrada.size(); ++i){
          //       cout<<entrada[i]<<endl;
         // }
        //cin.get();
-            entrada=AddOp(entrada,cont);           //Call the function to see if the new entry has an "+ or -"
-            return entrada;
+            expression=AddOp(entrada,cont,expression);           //Call the function to see if the new entry has an "+ or -"
+            return expression;
             //cout<<"R / : "<<res<<endl;
           }}
       }
@@ -116,16 +155,17 @@ vector<string> AddOp(vector<string> entrada, int cont){
 }
 
 //MultipliOp / and * (Validate the hierarchy of multiplication and division)
-vector<string> MultOp(vector<string> entrada, int cont){
+vector<vector<string>> MultOp(vector<string> entrada, int cont, vector<vector<string>> expression){
 string op,op2,temp; //res
+vector<string> vec;
  for(int i(0); i < entrada.size(); ++i){           //For each element of the input (lexemes)
     if(entrada[i].find(';')!= string::npos){       //Final case when finding "* or /"
        //for(int i(0); i < entrada.size(); ++i){
        //         cout<<entrada[i]<<endl;
        //}
        // cin.get();
-       entrada = AddOp(entrada,cont);              //Call the function to see if the new entry has an "+ or -"
-       return entrada;
+       expression = AddOp(entrada,cont,expression);              //Call the function to see if the new entry has an "+ or -"
+       return expression;
     }
       if(entrada[i].find('/')!= string::npos || entrada[i].find('*')!= string::npos){ //When finding "/" or "*"
           if(entrada[i].find('/')!= string::npos){              //When finding "/"
@@ -133,19 +173,36 @@ string op,op2,temp; //res
             op = entrada[i-1];                                  //The left operand of the operator is taken Ex: "op / op2" where "op" was taken
             if(op[0] != 'T'){                                   //If the operand hasn't been loaded previously
                 cout<<"LOAD\t\t"<<op<<"\t\t\t\tV"<<cont<<endl;
+                vec.push_back("LOAD");
+                vec.push_back(op);
                 op = "V"+to_string(cont);
+                vec.push_back(op);
+                expression.push_back(vec);
+                vec.clear();
             }else{                                              //Opposite case
                op = "T"+to_string(cont-1);
             }
             op2 = entrada[i+1];                                 //The right operand of the operator is taken Ex: "op / op2" where "op2" was taken
             if(op2[0] != 'T'){                                  //If the operand 2 hasn't been loaded previously
                 cout<<"LOAD\t\t"<<op2<<"\t\t\t\tR"<<cont<<endl;
+                vec.push_back("LOAD");
+                vec.push_back(op2);
                 op2 = "R"+to_string(cont);
+                vec.push_back(op2);
+                expression.push_back(vec);
+                vec.clear();
             }else{                                              //Opposite case
                op2 = "T"+to_string(cont-1);
             }
             //res = op * op2;
             cout<<"DIV\t\t"<<op<<"\t\t"<<op2<<"\t\tT"<<cont<<endl;
+            vec.push_back("DIV");
+            vec.push_back(op);
+            vec.push_back(op2);
+            string aux = "T"+to_string(cont);
+            vec.push_back(aux);
+            expression.push_back(vec);
+            vec.clear();
             entrada.erase(entrada.begin() + i-1);               //Replaces the new result into the vector Ex: "op / op2" = "T1"
             entrada.erase(entrada.begin() + i-1);
             temp = "T"+to_string(cont);
@@ -154,8 +211,8 @@ string op,op2,temp; //res
          //       cout<<entrada[i]<<endl;
         // }
        //cin.get();
-            entrada=MultOp(entrada,cont);                       //Call the function to see if the new entry has an "/ or *"
-            return entrada;
+            expression=MultOp(entrada,cont, expression);                       //Call the function to see if the new entry has an "/ or *"
+            return expression;
             //cout<<"R / : "<<res<<endl;
           }else{                                                //When finding "*"
             //cout<<"Case MUL"<<endl;
@@ -163,7 +220,12 @@ string op,op2,temp; //res
             op = entrada[i-1];                                  //The left operand of the operator is taken Ex: "op * op2" where "op" was taken
             if(op[0] != 'T'){                                   //If the operand hasn't been loaded previously
                 cout<<"LOAD\t\t"<<op<<"\t\t\t\tV"<<cont<<endl;
+                vec.push_back("LOAD");
+                vec.push_back(op);
                 op = "V"+to_string(cont);
+                vec.push_back(op);
+                expression.push_back(vec);
+                vec.clear();
             }else{                                              //Opposite case
                op = "T"+to_string(cont-1);
             }
@@ -171,22 +233,35 @@ string op,op2,temp; //res
             op2 = entrada[i+1];                                 //The right operand of the operator is taken Ex: "op * op2" where "op2" was taken
             if(op2[0] != 'T'){                                  //If the operand 2 hasn't been loaded previously
                 cout<<"LOAD\t\t"<<op2<<"\t\t\t\tR"<<cont<<endl;
+                vec.push_back("LOAD");
+                vec.push_back(op2);
                 op2 = "R"+to_string(cont);
+                vec.push_back(op2);
+                expression.push_back(vec);
+                vec.clear();
             }else{                                              //Opposite case
                op2 = "T"+to_string(cont-1);
             }
             //res = op * op2;
             cout<<"MUL\t\t"<<op<<"\t\t"<<op2<<"\t\tT"<<cont<<endl;
+            vec.push_back("MUL");
+            vec.push_back(op);
+            vec.push_back(op2);
+            string aux = "T"+to_string(cont);
+            vec.push_back(aux);
+            expression.push_back(vec);
+            vec.clear();
             entrada.erase(entrada.begin() + i-1);              //Replaces the new result into the vector Ex: "op * op2" = "T1"
             entrada.erase(entrada.begin() + i-1);
             temp = "T"+to_string(cont);
             entrada[i-1] = temp;                               //The result is stored after the previous ones have been deleted
+
             //for(int i(0); i < entrada.size(); ++i){
          //       cout<<entrada[i]<<endl;
         // }
        //cin.get();
-            entrada=MultOp(entrada,cont);                      //Call the function to see if the new entry has an "/ or *"
-            return entrada;
+            expression=MultOp(entrada,cont,expression);                      //Call the function to see if the new entry has an "/ or *"
+            return expression;
             //cout<<"R / : "<<res<<endl;
           }
       }
@@ -2017,8 +2092,10 @@ for(int i(0); i < lexemas.size(); ++i){
 //Send the expressions to generate intermediate code
 string entrada;
 vector<string> sentence;
-int code = 0;
-//Instructions used --> .CODE, LOAD, ADD, SUB, MOV, DIV, END
+vector<vector<string>> expression;
+vector<vector<string>> codigo = {{".CODE",";Code start"}};
+//Instructions used --> .CODE, LOAD, ADD, SUB, MOV, DIV, END, ;
+int code = 0, instruction = 0;
 for(int i(0); i < lexemas.size(); ++i){
 
     sentence.push_back(space(lexemas[i]));
@@ -2030,23 +2107,31 @@ for(int i(0); i < lexemas.size(); ++i){
         for (string element : sentence) { //For each lexeme up to ";"
         entrada = entrada+element+" ";
         }
+        codigo.push_back({" "});
+        codigo.push_back({" ;Entrada --> ",entrada});
        cout<<endl<<"Entrada -- > "<<entrada;
         cin.get();
-        cout<<"Operacion\tOperando 1\tOperando 2\tResultado almacenado"<<endl;
+        cout<<"Operacion\tOperando 1\tOperando 2\tResultado Almacenado"<<endl;
         if(code == 0){cout<<".CODE"<<endl; code = 1;}
-        vector<string> cadenita = MultOp(sentence,0);            //As it is an expression, the intermediate code is generated. Ex: x = 1 * 5 + 2;
-        sentence.clear();                                        //Clean for the next expression
+        vector<vector<string>> codigo_expresion = MultOp(sentence,0,expression);            //Returns the generated code of an expression
+        sentence.clear();                                                                  //Clean for the next expression
         entrada = "";
-        cout<<"Resultante: "<<endl;
-        for (string elemento : cadenita) {
-        cout << elemento <<" ";
+        for(int i(0); i < codigo_expresion.size(); ++i){    //The generated code of the expression is added to the code
+           codigo.push_back(codigo_expresion[i]);
+        }
     }
-    cin.get();
-    }
-
 }
+cin.get();
 cout<<"END";
+codigo.push_back({"END",";Code end"});
 
+cout<<"-Codigo generado: "<<endl<<endl;
+       for(int i(0); i < codigo.size(); ++i){          //For each generated code statement
+           for(int j(0); j < codigo[i].size(); j++){
+               cout<<codigo[i][j]<<" ";                // <-- Generated Code
+           }
+           cout<<endl;
+       }
 }
 }
 }
