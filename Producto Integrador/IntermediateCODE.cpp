@@ -2055,6 +2055,8 @@ cout<<msjsintaxError<<endl;
       cout<<"< System: Semantic analysis completed with no errors. >\n"<<"-Process finished with exit code 0."<<endl;
      //---------------------------------------------------------------------------
       //< Intermediate CODE >
+
+
 //CODE for mathematical expressions Ex: a = 1; x = a * 5 Then --> x = 1 * 5;
 /*
       vector<string> variables;
@@ -2089,6 +2091,17 @@ for(int i(0); i < lexemas.size(); ++i){
 }
 */
 
+int generate_code = 1;
+for(int i(0); i < tokens.size(); ++i){ //Compatible source code
+        if(tokens[i].find("Assignment")!= string::npos || tokens[i].find("AdditionOp")!= string::npos || tokens[i].find("Identifier")!= string::npos || tokens[i].find("Integer")!= string::npos || tokens[i].find("MultiplOp")!= string::npos || tokens[i].find("Semicolon")!= string::npos || tokens[i].find("End")!= string::npos || tokens[i].find("Real")!= string::npos){
+            continue;
+        }
+        else{ //Code generated error
+            generate_code = 0;
+            break;
+        }
+}
+if(generate_code){
 //Send the expressions to generate intermediate code
 string entrada;
 vector<string> sentence;
@@ -2132,10 +2145,13 @@ cout<<"-Codigo generado: "<<endl<<endl;
            }
            cout<<endl;
        }
+}else{ //Code generated error
+    cout<<endl<<">System: The generated code is incompatible."<<endl;
 }
 }
 }
-     /*
+}
+ /*
     for (const string& element : elements)
         {
         if (element.find("Lexema: if") != string::npos) {
