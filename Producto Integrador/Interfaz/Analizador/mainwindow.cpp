@@ -28,10 +28,8 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_buttonLexico_clicked()  ///Boton para analizar hasta el analizador Lexico
+void MainWindow::showLexicalTable(vector<tablaSimbolo>& TablaSimbolo)
 {
-    vector<tablaSimbolo> TablaSimbolo = funcionLexico(ui->inputCode->toPlainText()); //Obtenemos la tabla de simbolo de la entrada
-
     ///Mostreo en la interfaz
     QStandardItemModel *model = new QStandardItemModel();
     model->setColumnCount(3);
@@ -44,9 +42,7 @@ void MainWindow::on_buttonLexico_clicked()  ///Boton para analizar hasta el anal
 
     int countlexema = TablaSimbolo.size();
     int rowCount= 0;
-    /*for(int row = countlexema;row<model->rowCount();row++){//Elimina las filas sobrantes del lexemas
-        rowCount = model->removeRow(countlexema);
-    }*/
+
     for (int row = 0; row < countlexema; row++) {
         rowCount = model->rowCount();
 
@@ -64,11 +60,7 @@ void MainWindow::on_buttonLexico_clicked()  ///Boton para analizar hasta el anal
             model->setItem(row,0,itemLex);
             model->setItem(row,1,itemTok);
             model->setItem(row,2,itemT);
-        }/*else{
-            model->setItem(row,0,itemLex);
-            model->setItem(row,1,itemTok);
-            model->setItem(row,2,itemT);
-        }*/
+        }
 
     }
 
@@ -79,12 +71,18 @@ void MainWindow::on_buttonLexico_clicked()  ///Boton para analizar hasta el anal
     ui->TablaLexico->setColumnWidth(1,(ui->TablaLexico->width()*0.46));//300
     ui->TablaLexico->setColumnWidth(2,(ui->TablaLexico->width()*0.25));//125
 }
+void MainWindow::on_buttonLexico_clicked()  ///Boton para analizar hasta el analizador Lexico
+{
+    vector<tablaSimbolo> TablaSimbolo = funcionLexico(ui->inputCode->toPlainText()); //Obtenemos la tabla de simbolo de la entrada
+    showLexicalTable(TablaSimbolo); //Mostramos la tabla en la interfaz
+}
 
 void MainWindow::on_buttonSintatico_clicked()//Boton para realizar el analisis hasta el sintatico
 {
 
     ui->textSintatico->clear();//Limpiamos nuestro cuadro de texto
     vector<tablaSimbolo> TablaSimbolo = funcionLexico(ui->inputCode->toPlainText()); //Obtenemos la tabla de simbolo de la entrada
+    showLexicalTable(TablaSimbolo); //Mostramos la tabla en la interfaz
     ui->textSintatico->setPlainText(QString::fromStdString(funcionSintaticoSemantico(TablaSimbolo, 1))); //Se escribe el texto resultante del sintatico
 }
 
@@ -92,6 +90,8 @@ void MainWindow::on_buttonSemantico_clicked()
 {
     ui->textSemantico->clear();//Limpiamos nuestro cuadro de texto
     vector<tablaSimbolo> TablaSimbolo = funcionLexico(ui->inputCode->toPlainText()); //Obtenemos la tabla de simbolo de la entrada
+    showLexicalTable(TablaSimbolo); //Mostramos la tabla en la interfaz
+    ui->textSintatico->setPlainText(QString::fromStdString(funcionSintaticoSemantico(TablaSimbolo, 1))); //Se escribe el texto resultante del sintatico
     ui->textSemantico->setPlainText(QString::fromStdString(funcionSintaticoSemantico(TablaSimbolo, 2))); //Se escribe el texto resultante del semantico
 }
 
@@ -174,52 +174,7 @@ void MainWindow::on_actionTodo_triggered()
     //ui->textSintatico->clear();//Limpiamos nuestro cuadro de texto
     //ui->textSemantico->clear();//Limpiamos nuestro cuadro de texto
     vector<tablaSimbolo> TablaSimbolo = funcionLexico(ui->inputCode->toPlainText()); //Obtenemos la tabla de simbolo de la entrada
-    ///Mostreo en la interfaz
-    QStandardItemModel *model = new QStandardItemModel();
-    model->setColumnCount(3);
-    model->setHorizontalHeaderLabels(QStringList() << "Lexema" << "Token" << "Tipo");
-    QFont headerFont = model->horizontalHeaderItem(0)->font();  // Obtén la fuente actual de la cabecera
-    headerFont.setBold(true);  // Establece la fuente en negritas
-    model->horizontalHeaderItem(0)->setFont(headerFont);
-    model->horizontalHeaderItem(1)->setFont(headerFont);
-    model->horizontalHeaderItem(2)->setFont(headerFont);
-
-    int countlexema = TablaSimbolo.size();
-    int rowCount= 0;
-    /*for(int row = countlexema;row<model->rowCount();row++){//Elimina las filas sobrantes del lexemas
-        rowCount = model->removeRow(countlexema);
-    }*/
-    for (int row = 0; row < countlexema; row++) {
-        rowCount = model->rowCount();
-
-        //Le ponemos formato para insertar a la tabla
-        QStandardItem *itemLex = new QStandardItem(QString::fromStdString(TablaSimbolo[row].lexema));
-        itemLex->setTextAlignment(Qt::AlignCenter);
-        QStandardItem *itemTok = new QStandardItem(QString::fromStdString(TablaSimbolo[row].token));
-        itemTok->setTextAlignment(Qt::AlignCenter);
-        QStandardItem *itemT = new QStandardItem(QString::fromStdString(to_string(TablaSimbolo[row].tipo)));
-        itemT->setTextAlignment(Qt::AlignCenter);
-
-        if (rowCount<=row){//Insertamos el contenido de las filas segun su cantidad
-            model->insertRow(rowCount);
-
-            model->setItem(row,0,itemLex);
-            model->setItem(row,1,itemTok);
-            model->setItem(row,2,itemT);
-        }/*else{
-            model->setItem(row,0,itemLex);
-            model->setItem(row,1,itemTok);
-            model->setItem(row,2,itemT);
-        }*/
-
-    }
-
-    ui->TablaLexico->setModel(model);//Actualizamos el modelo de la tabla a mostrar
-
-    //Ajustara el ancho de las columnas con respecto al ancho de la tabla
-    ui->TablaLexico->setColumnWidth(0,(ui->TablaLexico->width()*0.25));//185
-    ui->TablaLexico->setColumnWidth(1,(ui->TablaLexico->width()*0.46));//300
-    ui->TablaLexico->setColumnWidth(2,(ui->TablaLexico->width()*0.25));//125
+    showLexicalTable(TablaSimbolo); //Mostramos la tabla en la interfaz
 
     //Ejecucion y actualizacion de la vista de los analizadores sintatico y semantico
     string sintac = funcionSintaticoSemantico(TablaSimbolo, 1);

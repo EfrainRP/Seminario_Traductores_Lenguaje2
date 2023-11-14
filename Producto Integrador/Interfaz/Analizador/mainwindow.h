@@ -48,5 +48,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    void showLexicalTable(std::vector<tablaSimbolo>&);
 };
 #endif // MAINWINDOW_H

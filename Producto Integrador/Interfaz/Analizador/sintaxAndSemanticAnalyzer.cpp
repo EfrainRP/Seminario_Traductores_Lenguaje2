@@ -252,8 +252,11 @@ string funcionSintaticoSemantico(vector<tablaSimbolo>& TablaSimbolo, int flagNum
         {
             string ErrorLexical = "Lexical error in: "+TablaSimbolo[i].lexema+"\n-Process finished with exit code 0.";
             qCritical()<<ErrorLexical;
-
-            return ErrorLexical;
+            if(flagNum==1){
+                return ErrorLexical;
+            }else{
+                return " ";
+            }
         }
         i++;
     }
@@ -1551,58 +1554,74 @@ string funcionSintaticoSemantico(vector<tablaSimbolo>& TablaSimbolo, int flagNum
         }
         return msjsintaxError;
     }else if(flagNum == 2){///Semantic Analysis
-        if((msjsintaxError.size() <= 0) && (!semanticErrors.empty())){ //If there are no errors
-            //If there are semantic errors
-            msjSemanticError += ">SemanticError: \n";
-            for(int i(0); i < semanticErrors.size(); ++i){
-                msjSemanticError += "- In line <"+ to_string(sentenciasErrors[i]) + ">: " + semanticErrors[i] + "\n\n";
+        if(msjsintaxError.size() <= 0){//If there are no sintatic errors
+            if(!semanticErrors.empty()){ //If there are semantic errors
+                msjSemanticError += ">SemanticError: \n";
+                for(int i(0); i < semanticErrors.size(); ++i){
+                    msjSemanticError += "- In line <"+ to_string(sentenciasErrors[i]) + ">: " + semanticErrors[i] + "\n\n";
+                }
+            }else{//If there are no semantic errors
+                msjSemanticError="< System: Semantic analysis completed with no errors. >\n-Process finished with exit code 0.\n";
             }
-        }else{
-            msjSemanticError="< System: Semantic analysis completed with no errors. >\n-Process finished with exit code 0.\n";  
         }
         return msjSemanticError;
     }
     else if (flagNum == 3){
-        if(semanticErrors.empty()){
-        //Send the expressions to generate intermediate code
-        string entrada;
-        vector<string> sentence;
-        vector<vector<string>> expression;
-        vector<vector<string>> codigo = {{".CODE","  ;   Code start"}};
-        //Instructions used --> .CODE, LOAD, ADD, SUB, MOV, DIV, END, ;
-        for(int i(0); i < TablaSimbolo.size(); ++i){
-            sentence.push_back(TablaSimbolo[i].lexema);
-            if(TablaSimbolo[i].lexema.find(';')!= string::npos){ //Being a declaration of value, it is omitted Ex: x = 2;
-                if (TablaSimbolo[i-2].lexema.find('=')!= string::npos){
-                    sentence.clear();
+        string codeEND;
+
+        if(semanticErrors.empty()){//If there are no semantic errors
+            int generate_code = 1;
+            for(int i(0); i < TablaSimbolo.size(); ++i){ //Compatible source code
+                if(TablaSimbolo[i].token.find("Assignment")!= string::npos || TablaSimbolo[i].token.find("AdditionOp")!= string::npos || TablaSimbolo[i].token.find("Identifier")!= string::npos || TablaSimbolo[i].token.find("Integer")!= string::npos || TablaSimbolo[i].token.find("MultiplOp")!= string::npos || TablaSimbolo[i].token.find("Semicolon")!= string::npos || TablaSimbolo[i].token.find("End")!= string::npos || TablaSimbolo[i].token.find("Real")!= string::npos){
                     continue;
                 }
-                for (string element : sentence) { //For each lexeme up to ";"
-                    entrada = entrada+element+" ";
-                }
-                codigo.push_back({" "});
-                codigo.push_back({" ;  Entrada --> ",entrada});
-
-                vector<vector<string>> codigo_expresion = MultOp(sentence,0,expression);            //Returns the generated code of an expression
-                sentence.clear();                                                                  //Clean for the next expression
-                entrada = "";
-                for(int i(0); i < codigo_expresion.size(); ++i){    //The generated code of the expression is added to the code
-                    codigo.push_back(codigo_expresion[i]);
+                else{ //Code generated error
+                    generate_code = 0;
+                    break;
                 }
             }
-        }
+            if(generate_code){ //If validate to generate the code
+                //Send the expressions to generate intermediate code
+                string entrada;
+                vector<string> sentence;
+                vector<vector<string>> expression;
+                vector<vector<string>> codigo = {{".CODE","  ;   Code start"}};
+                //Instructions used --> .CODE, LOAD, ADD, SUB, MOV, DIV, END, ;
+                for(int i(0); i < TablaSimbolo.size(); ++i){
+                    sentence.push_back(TablaSimbolo[i].lexema);
+                    if(TablaSimbolo[i].lexema.find(';')!= string::npos){ //Being a declaration of value, it is omitted Ex: x = 2;
+                        if (TablaSimbolo[i-2].lexema.find('=')!= string::npos){
+                            sentence.clear();
+                            continue;
+                        }
+                        for (string element : sentence) { //For each lexeme up to ";"
+                            entrada = entrada+element+" ";
+                        }
+                        codigo.push_back({" "});
+                        codigo.push_back({" ;  Entrada --> ",entrada});
 
-        codigo.push_back({"END"," ;    Code end"});
-        string codeEND;
-        for(int i(0); i < codigo.size(); ++i){          //For each generated code statement
-            for(int j(0); j < codigo[i].size(); j++){
+                        vector<vector<string>> codigo_expresion = MultOp(sentence,0,expression);            //Returns the generated code of an expression
+                        sentence.clear();                                                                  //Clean for the next expression
+                        entrada = "";
+                        for(int i(0); i < codigo_expresion.size(); ++i){    //The generated code of the expression is added to the code
+                            codigo.push_back(codigo_expresion[i]);
+                        }
+                    }
+                }
 
-                codeEND += codigo[i][j] + "\t";                // <-- Generated Code
+                codigo.push_back({"END"," ;    Code end"});
+
+                for(int i(0); i < codigo.size(); ++i){          //For each generated code statement
+                    for(int j(0); j < codigo[i].size(); j++){
+
+                        codeEND += codigo[i][j] + "\t";                // <-- Generated Code
+                    }
+                    codeEND += "\n";
+                }
+            }else{ //Code generated error
+                codeEND = ">System: The generated code is incompatible.";
             }
-            codeEND += "\n";
         }
         return codeEND;//Regresara la cadena del generador de codigo
-        }
-        return ""; //Regresa vacio si no se ejecuto correctamente
     }
 }
