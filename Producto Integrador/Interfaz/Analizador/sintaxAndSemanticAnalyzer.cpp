@@ -1566,7 +1566,7 @@ string funcionSintaticoSemantico(vector<tablaSimbolo>& TablaSimbolo, int flagNum
         }
         return msjSemanticError;
     }
-    else if (flagNum == 3){
+    else if (flagNum == 3){///Code Generator
         string codeEND;
 
         if(semanticErrors.empty()){//If there are no semantic errors
