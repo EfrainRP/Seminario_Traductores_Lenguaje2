@@ -64,8 +64,12 @@ string funcionSintaticoSemantico(vector<tablaSimbolo>& TablaSimbolo, bool flag){
         {
             string ErrorLexical = "Lexical error in: "+TablaSimbolo[i].lexema+"\n-Process finished with exit code 0.";
             qCritical()<<ErrorLexical;
-
-            return ErrorLexical;
+            if(flag==true){
+                return ErrorLexical;
+            }
+            else{
+                return "";
+            }
         }
         i++;
     }
@@ -1365,13 +1369,15 @@ string funcionSintaticoSemantico(vector<tablaSimbolo>& TablaSimbolo, bool flag){
         }
         return msjsintaxError;
     }else{///Semantic Analysis
-        if((msjsintaxError.size() == 0) && (!semanticErrors.empty())){ //If there are no errors
-            //If there are semantic errors
-            for(int i(0); i < semanticErrors.size(); ++i){
-                msjSemanticError += "- In line <"+ to_string(sentenciasErrors[i]) + ">: " + semanticErrors[i] + "\n\n";
+        if(msjsintaxError.size() == 0){
+            if(!semanticErrors.empty()){ //If there are no errors
+                //If there are semantic errors
+                for(int i(0); i < semanticErrors.size(); ++i){
+                    msjSemanticError += "- In line <"+ to_string(sentenciasErrors[i]) + ">: " + semanticErrors[i] + "\n\n";
+                }
+            }else{
+                msjSemanticError="< System: Semantic analysis completed with no errors. >\n-Process finished with exit code 0.\n";
             }
-        }else{
-            msjSemanticError="< System: Semantic analysis completed with no errors. >\n-Process finished with exit code 0.\n";
         }
         return msjSemanticError;
     }

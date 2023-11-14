@@ -1,38 +1,24 @@
 def funtion(a,b,c):
-    a = 1; 
-    b = 2; 
-    c = 3;
-    return a,b,c;
-funtion(a,b,c);
-return;
-test = True;
-while test:
-   a = 5;
-   b = "test";
-   c = 5.1;
-   break;
-if (a != 5):
-    b = "test2";
+     a = 1;
+     b = 2;
+     c = 3;
+def funtion2(var):
+    return;
+var = (1*2+3+(2*2)/0)/0+1/0;
+b = 1/0;
+i = i;
+a = 1;
+if (a/0) == 5:
+    print(a);
 else:
-    b = "test3";
-for element in range(0,a,4,10):
-    print(element);
-text = input("Type ");
-print(f"{text}");
-input("");
-print("Test");
-a = (2*(c+(42)));
-if (a == 40 and c != a):
-   var1 = 1;
-elif not test:
-   var2 = False;
-elif a >= c or var1 < 10:
-  myvar = a;
-else:
-   var3 = "Not found";
-myint = int(a) + int(c);
-semanticerror = int(a) + str(c);
-if (a == (c+20) and c <= ):
-while a != c:
-   print("");
-   break
+    b = 2;
+c = 1;
+cadena = "cadenita";
+var2 = int(cadena) + str(c);
+var2 = str(cadena) + str(cadena);
+while x == 2:
+   x = 1;
+   print(z);
+funtion(c,a);
+funtion2(c,a,1);
+a = input("Press Enter",a);

@@ -653,68 +653,6 @@ debug/mainwindow.o: ../Analizador/mainwindow.cpp ../Analizador/mainwindow.h \
 		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/qnativeinterface.h \
 		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qtabwidget.h \
 		ui_mainwindow.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/QVariant \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtGui/QAction \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtGui/QIcon \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/QApplication \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qapplication.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/qcoreapplication.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/qeventloop.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/qcoreapplication_platform.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/qfuture.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/qfutureinterface.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/qmutex.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/qtsan_impl.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/qresultstore.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/qfuture_impl.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/qthreadpool.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/qthread.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/qdeadlinetimer.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/qelapsedtimer.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/qrunnable.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/qexception.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/qpromise.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtGui/qguiapplication.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtGui/qinputmethod.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/qlocale.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtGui/qguiapplication_platform.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/QHeaderView \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qheaderview.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qabstractitemview.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qabstractscrollarea.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qframe.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/qabstractitemmodel.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/qitemselectionmodel.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qstyleoption.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qabstractspinbox.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtGui/qvalidator.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/qregularexpression.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qslider.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qabstractslider.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qstyle.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qtabbar.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qrubberband.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/QLabel \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qlabel.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtGui/qpicture.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtGui/qtextdocument.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/QMenu \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qmenu.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/QMenuBar \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qmenubar.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/QPushButton \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qpushbutton.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qabstractbutton.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/QTableView \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qtableview.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/QTextEdit \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qtextedit.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtGui/qtextoption.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtGui/qtextcursor.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtGui/qtextformat.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtGui/qpen.h \
-		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/QWidget \
 		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/QFile \
 		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/qfile.h \
 		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/qfiledevice.h \
@@ -723,8 +661,17 @@ debug/mainwindow.o: ../Analizador/mainwindow.cpp ../Analizador/mainwindow.h \
 		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qmessagebox.h \
 		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qdialog.h \
 		E:/instalacionQt/6.5.2/mingw_64/include/QtGui/QPixmap \
+		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/QLabel \
+		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qlabel.h \
+		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qframe.h \
+		E:/instalacionQt/6.5.2/mingw_64/include/QtGui/qpicture.h \
+		E:/instalacionQt/6.5.2/mingw_64/include/QtGui/qtextdocument.h \
 		E:/instalacionQt/6.5.2/mingw_64/include/QtGui/QStandardItemModel \
 		E:/instalacionQt/6.5.2/mingw_64/include/QtGui/qstandarditemmodel.h \
+		E:/instalacionQt/6.5.2/mingw_64/include/QtCore/qabstractitemmodel.h \
+		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/QScrollBar \
+		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qscrollbar.h \
+		E:/instalacionQt/6.5.2/mingw_64/include/QtWidgets/qabstractslider.h \
 		../Analizador/lexicalAnalyzer.cpp \
 		../Analizador/sintaxAndSemanticAnalyzer.cpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\mainwindow.o ..\Analizador\mainwindow.cpp

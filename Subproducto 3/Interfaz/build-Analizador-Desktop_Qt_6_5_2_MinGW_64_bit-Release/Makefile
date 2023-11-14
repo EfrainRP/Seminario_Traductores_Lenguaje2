@@ -330,7 +330,6 @@ Makefile: ../Analizador/Analizador.pro E:/instalacionQt/6.5.2/mingw_64/mkspecs/w
 		E:/instalacionQt/6.5.2/mingw_64/mkspecs/features/qt_config.prf \
 		E:/instalacionQt/6.5.2/mingw_64/mkspecs/win32-g++/qmake.conf \
 		E:/instalacionQt/6.5.2/mingw_64/mkspecs/features/spec_post.prf \
-		.qmake.stash \
 		E:/instalacionQt/6.5.2/mingw_64/mkspecs/features/exclusive_builds.prf \
 		E:/instalacionQt/6.5.2/mingw_64/mkspecs/features/toolchain.prf \
 		E:/instalacionQt/6.5.2/mingw_64/mkspecs/features/default_pre.prf \
@@ -360,6 +359,7 @@ Makefile: ../Analizador/Analizador.pro E:/instalacionQt/6.5.2/mingw_64/mkspecs/w
 		E:/instalacionQt/6.5.2/mingw_64/lib/Qt6Gui.prl \
 		E:/instalacionQt/6.5.2/mingw_64/lib/Qt6Core.prl \
 		E:/instalacionQt/6.5.2/mingw_64/lib/Qt6EntryPoint.prl \
+		.qmake.stash \
 		E:/instalacionQt/6.5.2/mingw_64/mkspecs/features/build_pass.prf \
 		../Analizador/IMG.qrc
 	$(QMAKE) -o Makefile ..\Analizador\Analizador.pro -spec win32-g++ "CONFIG+=qtquickcompiler"
@@ -623,7 +623,6 @@ E:/instalacionQt/6.5.2/mingw_64/mkspecs/features/qt_functions.prf:
 E:/instalacionQt/6.5.2/mingw_64/mkspecs/features/qt_config.prf:
 E:/instalacionQt/6.5.2/mingw_64/mkspecs/win32-g++/qmake.conf:
 E:/instalacionQt/6.5.2/mingw_64/mkspecs/features/spec_post.prf:
-.qmake.stash:
 E:/instalacionQt/6.5.2/mingw_64/mkspecs/features/exclusive_builds.prf:
 E:/instalacionQt/6.5.2/mingw_64/mkspecs/features/toolchain.prf:
 E:/instalacionQt/6.5.2/mingw_64/mkspecs/features/default_pre.prf:
@@ -653,6 +652,7 @@ E:/instalacionQt/6.5.2/mingw_64/lib/Qt6Widgets.prl:
 E:/instalacionQt/6.5.2/mingw_64/lib/Qt6Gui.prl:
 E:/instalacionQt/6.5.2/mingw_64/lib/Qt6Core.prl:
 E:/instalacionQt/6.5.2/mingw_64/lib/Qt6EntryPoint.prl:
+.qmake.stash:
 E:/instalacionQt/6.5.2/mingw_64/mkspecs/features/build_pass.prf:
 ../Analizador/IMG.qrc:
 qmake: FORCE
