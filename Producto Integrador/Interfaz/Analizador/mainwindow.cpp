@@ -9,7 +9,7 @@
 #include <QScrollBar>
 
 #include "lexicalAnalyzer.cpp"
-#include "sintaxAndSemanticAnalyzer.cpp"
+#include "SintaxSemanticGenerator.cpp"
 using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
